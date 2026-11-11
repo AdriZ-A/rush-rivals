@@ -249,6 +249,37 @@ body:before{opacity:.12;background-image:linear-gradient(#bdeaff18 1px,transpare
  .menu-tabs .mode-card .mode-icon{font-size:29px}
 }
 
+
+/* COURSE EN PLEIN ÉCRAN */
+#gameScreen{position:fixed!important;inset:0!important;z-index:1000;width:100vw!important;height:100dvh!important;max-width:none!important;margin:0!important;padding:0!important;overflow:hidden!important;background:#061329!important;display:none}
+#gameScreen .topbar{position:absolute;z-index:8;top:0;left:0;right:0;margin:0;padding:9px 16px;background:linear-gradient(180deg,#061329ed,#06132988);border:0}
+#gameScreen .hero,#gameScreen .info,#gameScreen>.footer{display:none!important}
+#gameScreen .panel{position:absolute;inset:0;width:100%;height:100%;max-width:none;margin:0;padding:0;border:0;border-radius:0;background:#061329;box-shadow:none;display:flex;flex-direction:column}
+#gameScreen .hud{position:absolute;z-index:7;top:62px;left:50%;transform:translateX(-50%);width:min(680px,94vw);display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:0}
+#gameScreen .stat{padding:8px 5px;background:#071a35c9;border:1px solid #8ddfff55;backdrop-filter:blur(8px)}
+#gameScreen .stat small{font-size:9px}
+#gameScreen .stat strong{font-size:clamp(13px,2vw,21px)}
+#gameScreen .game-wrap{position:absolute;inset:0;width:100%;height:100%;border:0;border-radius:0;box-shadow:none;background:#050d1b;display:flex;align-items:center;justify-content:center}
+#gameScreen canvas{width:100%;height:100%;max-width:100vw;max-height:100dvh;object-fit:fill;aspect-ratio:auto}
+#gameScreen .bottom{position:absolute;z-index:7;left:0;right:0;bottom:0;margin:0;padding:12px 18px;background:linear-gradient(0deg,#061329ed,#06132970);align-items:center}
+#gameScreen .controls{font-size:clamp(11px,1.5vw,15px);color:#e2f5ff}
+#gameScreen .restart{background:#0d3455;color:#dff7ff;border-color:#74cfff88}
+#gameScreen .overlay{position:fixed;inset:0;z-index:20;background:#041329eF}
+#gameScreen .overlay-card{max-width:520px;padding:26px;border:1px solid #8bdfff66;border-radius:22px;background:linear-gradient(145deg,#123b60,#071a35);box-shadow:0 20px 70px #0009}
+#gameScreen .loading-screen{position:fixed!important;inset:0!important;z-index:30!important;width:100vw!important;height:100dvh!important;border-radius:0!important;background:radial-gradient(circle at 50% 42%,#174d79,#071a35 68%,#030b18);backdrop-filter:blur(12px)}
+#gameScreen .loading-card{max-width:600px}
+#gameScreen .loading-logo{font-family:'Nunito',sans-serif;font-weight:900;background:linear-gradient(90deg,#8de8ff,#fff,#8de8ff);color:transparent;background-clip:text}
+#gameScreen .loading-track{font-family:'Nunito',sans-serif;font-size:clamp(22px,4vw,34px)}
+#gameScreen .loading-sub,#gameScreen .circuit-chip{font-family:'Nunito',sans-serif}
+@media(max-width:600px){
+ #gameScreen .topbar{padding:7px 9px}
+ #gameScreen .brand{font-size:14px}
+ #gameScreen .game-menu-btn{font-size:9px;padding:8px}
+ #gameScreen .hud{top:52px;gap:4px}
+ #gameScreen .stat{padding:6px 2px}
+ #gameScreen .bottom{padding:8px}
+}
+
 </style>
 </head>
 <body>
@@ -436,6 +467,15 @@ function enterGame(mode){
  document.getElementById("menuScreen").style.display="none";
  document.getElementById("gameScreen").style.display="block";
  reset();
+ $("overlay").classList.add("hidden");
+ $("loadingScreen").hidden=false;
+ if(document.getElementById("gameScreen").requestFullscreen && !document.fullscreenElement){
+   document.getElementById("gameScreen").requestFullscreen().catch(()=>{});
+ }
+ setTimeout(()=>{
+   $("loadingScreen").hidden=true;
+   $("overlay").classList.remove("hidden");
+ },1600);
 }
 document.getElementById("rankedBtn").addEventListener("click",()=>enterGame("CLASSÉ · ENTRAÎNEMENT LOCAL"));
 document.getElementById("quickBtn").addEventListener("click",()=>enterGame("CHRONOMÈTRE SOLO"));
@@ -445,6 +485,7 @@ document.getElementById("newRoomBtn").addEventListener("click",()=>{
 });
 document.getElementById("backToMenuBtn").addEventListener("click",()=>{
  running=false;
+ if(document.fullscreenElement && document.exitFullscreen)document.exitFullscreen().catch(()=>{});
  document.getElementById("gameScreen").style.display="none";
  document.getElementById("menuScreen").style.display="block";
  hidePanels();$("menuGrid").style.display="grid";
@@ -626,16 +667,9 @@ function frame(t){
 function start(){
  if(running)return;
  if(finished)reset();
- chooseCircuit();
  $("overlay").classList.add("hidden");
- $("loadingScreen").hidden=false;
- $("loadingCircuitName").textContent=currentCircuit.name;
- $("loadingCircuitType").textContent=currentCircuit.type;
- setTimeout(()=>{
-  $("loadingScreen").hidden=true;
-  running=true;finished=false;last=performance.now();
-  requestAnimationFrame(frame);
- },1350);
+ running=true;finished=false;last=performance.now();
+ requestAnimationFrame(frame);
 }
 $("startBtn").addEventListener("click",start);
 $("restartBtn").addEventListener("click",reset);
