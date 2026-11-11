@@ -156,11 +156,64 @@ button {cursor:pointer;border:0;font-family:Orbitron,sans-serif;font-weight:800;
 @media(max-width:850px){.menu-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:560px){.menu-grid{grid-template-columns:1fr}.profile-grid{grid-template-columns:repeat(2,1fr)}}
 
+
+/* DUELIS-INSPIRED BLUE INTERFACE */
+:root{--cyan:#91e6ff;--pink:#6bbfff;--purple:#4e8ed0;--yellow:#d9f5ff;--bg:#071a35}
+body{background:radial-gradient(ellipse at 50% -10%,#2469a8 0%,transparent 48%),linear-gradient(155deg,#071a35,#0c3159 55%,#071a35);color:#f4faff}
+body:before{opacity:.12;background-image:linear-gradient(#bdeaff18 1px,transparent 1px),linear-gradient(90deg,#bdeaff18 1px,transparent 1px)}
+.menu-screen{display:none;max-width:none;padding:0 0 45px;min-height:100vh;background:linear-gradient(180deg,#0b2850 0 25%,#d8f3ff 25%,#9edcff 100%);color:#102b4c;overflow:hidden}
+.menu-top{padding:22px clamp(18px,4vw,58px);background:#09264a;min-height:86px;border-bottom:1px solid #9edcff33}
+.brand{color:#fff;letter-spacing:2px}.brand span{color:#8feaff;text-shadow:none}
+.menu-profile{background:#123b68;border:1px solid #6dbbe8;color:#e8f8ff}
+.menu-hero{position:relative;margin:0;padding:34px 15px 28px;min-height:260px;background:linear-gradient(180deg,#0b2850,#164d7e);overflow:hidden}
+.menu-hero:before,.menu-hero:after{content:"";position:absolute;left:-10%;width:120%;height:100px;border-radius:50%;background:#4e9bd0;opacity:.22;animation:waveDrift 9s ease-in-out infinite alternate;pointer-events:none}
+.menu-hero:before{bottom:-60px}.menu-hero:after{bottom:-76px;background:#b5eaff;opacity:.18;animation-duration:13s}
+@keyframes waveDrift{from{transform:translateX(-3%) rotate(-2deg)}to{transform:translateX(3%) rotate(2deg)}}
+.menu-hero>*{position:relative;z-index:1}.menu-hero .kicker{color:#9ce8ff;text-shadow:none}
+.menu-hero h1{font-size:clamp(42px,7vw,76px);background:linear-gradient(100deg,#fff,#9eeaff 55%,#d8f5ff);background-clip:text;filter:none}
+.menu-hero p{color:#d4efff;font-size:18px}
+.pseudo-box{position:absolute;right:clamp(15px,5vw,70px);top:24px;width:min(320px,34vw);margin:0;padding:12px;background:#0c3158;border:1px solid #7cc8ed;border-radius:14px;box-shadow:0 8px 24px #00152d55}
+.pseudo-box label{color:#c7edff}.pseudo-row input{background:#071e39;border-color:#4e8db8}
+.pseudo-row input{font-size:15px;padding:10px}.pseudo-row .main-btn{padding:10px 12px;font-size:10px}
+.main-btn{background:linear-gradient(110deg,#a8eaff,#e5f8ff);color:#10375b;box-shadow:0 5px 18px #003c6c44}
+.menu-tabs{position:relative;z-index:3;margin:0;padding:17px clamp(12px,4vw,55px);background:#09264a;justify-content:flex-start;gap:8px;border-bottom:1px solid #6eb9e8}
+.menu-tabs button{background:#123b68;border:1px solid #376d99;color:#e5f6ff;border-radius:10px;padding:12px 17px}
+.menu-grid{max-width:1120px;padding:34px 20px 0;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.mode-card{min-height:190px;border-radius:18px;background:linear-gradient(145deg,#fff,#eaf8ff);color:#12395e;border:1px solid #8ac9eb;box-shadow:0 12px 28px #174d7130}
+.mode-card:nth-child(1){background:linear-gradient(145deg,#fff4c9,#fff)}.mode-card:nth-child(2){background:linear-gradient(145deg,#d9f4ff,#fff)}.mode-card:nth-child(3){background:linear-gradient(145deg,#e7e2ff,#fff)}.mode-card:nth-child(4){background:linear-gradient(145deg,#d9f7ed,#fff)}
+.mode-card:hover{transform:translateY(-5px);border-color:#338ac3;box-shadow:0 16px 32px #174d7140}
+.mode-card .mode-icon{color:#2878ad;text-shadow:none}.mode-card h2{color:#12395e}.mode-card p{color:#466987}.mode-card .mode-tag{color:#2878ad}
+.mode-card.ranked{border-color:#d6b85c}.mode-card.ranked .mode-icon{color:#b38620}
+.mode-card.friends{border-color:#8e9fe2}.mode-card.friends .mode-icon{color:#657bd0}
+.menu-panel{max-width:850px;background:linear-gradient(145deg,#fff,#e5f5ff);color:#12395e;border:1px solid #86c7e9;box-shadow:0 15px 35px #174d7130}
+.menu-panel h2{color:#17649a}.menu-panel p{color:#416987}
+.profile-stat{background:#edf8ff;border-color:#c1e2f4}.profile-stat small{color:#426b8c}.profile-stat strong{color:#17649a}
+.secondary-btn{background:#e4f4ff;color:#17466c;border-color:#8fc7e6}
+.menu-note{color:#eaf7ff}.footer{color:#b7dff5}
+.menu-floaters{position:absolute;inset:360px 0 0;pointer-events:none;overflow:hidden;z-index:0}
+.floater{position:absolute;color:#fff;opacity:.55;font-size:30px;filter:drop-shadow(0 4px 8px #276b9c44);animation:floatDown linear infinite}
+.floater:nth-child(1){left:8%;animation-duration:18s}.floater:nth-child(2){left:25%;animation-duration:23s;animation-delay:-8s;font-size:22px}.floater:nth-child(3){left:73%;animation-duration:20s;animation-delay:-12s;font-size:36px}.floater:nth-child(4){left:91%;animation-duration:25s;animation-delay:-4s;font-size:24px}.floater:nth-child(5){left:53%;animation-duration:22s;animation-delay:-16s;font-size:19px}
+@keyframes floatDown{0%{transform:translateY(-100px) rotate(0)}100%{transform:translateY(900px) rotate(230deg)}}
+.menu-grid,.menu-panel,.menu-note,.footer{position:relative;z-index:1}
+#introScreen{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;position:relative;overflow:hidden;padding:30px;background:linear-gradient(160deg,#061a36,#0d3e70 58%,#5aa5d4);color:white}
+#introScreen:before,#introScreen:after{content:"";position:absolute;left:-20%;width:140%;height:230px;border-radius:50%;background:#5eb6e5;opacity:.23;bottom:-100px;animation:waveDrift 8s ease-in-out infinite alternate}
+#introScreen:after{bottom:-135px;background:#d5f5ff;opacity:.17;animation-duration:12s}
+.intro-content{position:relative;z-index:2;max-width:700px}
+.intro-mark{width:82px;height:82px;margin:0 auto 22px;border:3px solid #bdeeff;transform:rotate(45deg);border-radius:15px;display:grid;place-items:center;box-shadow:0 0 35px #8bdcff55}
+.intro-mark span{transform:rotate(-45deg);font:900 36px Orbitron,sans-serif;color:#dff8ff}
+.intro-title{font:900 clamp(42px,8vw,78px) Orbitron,sans-serif;letter-spacing:4px;margin:12px 0;background:linear-gradient(90deg,#fff,#9feaff);background-clip:text;color:transparent}
+.intro-slogan{font-size:20px;letter-spacing:2px;color:#d4efff;margin:0 0 30px}
+.intro-play{padding:17px 45px;border-radius:14px;font-size:14px}
+@media(max-width:760px){.menu-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.pseudo-box{position:relative;top:auto;right:auto;width:min(430px,92%);margin:20px auto 0}.menu-hero{padding-top:30px}}
+@media(max-width:540px){.menu-grid{grid-template-columns:1fr}.menu-tabs{justify-content:center}.menu-tabs button{font-size:9px;padding:10px 12px}.menu-top{padding:16px}.intro-slogan{font-size:16px}}
+
 </style>
 </head>
 <body>
 
+<section id="introScreen"><div class="intro-content"><div class="intro-mark"><span>R</span></div><div class="intro-title">RUSH RIVALS</div><p class="intro-slogan">DÉPASSE TES LIMITES. DEVIENS LA RÉFÉRENCE.</p><button class="main-btn intro-play" id="enterMenuBtn">JOUER</button></div></section>
 <section class="menu-screen" id="menuScreen">
+<div class="menu-floaters" aria-hidden="true"><span class="floater">🏆</span><span class="floater">✦</span><span class="floater">🏁</span><span class="floater">◇</span><span class="floater">★</span></div>
   <div class="menu-top">
     <div class="brand">RUSH <span>RIVALS</span></div>
     <div class="menu-profile">PILOTE : <span id="profileName">INVITÉ</span></div>
@@ -179,23 +232,19 @@ button {cursor:pointer;border:0;font-family:Orbitron,sans-serif;font-weight:800;
     </div>
   </header>
   <nav class="menu-tabs">
-    <button id="tabPlay">ACCUEIL</button><button id="tabProfile">MON PROFIL</button><button id="tabClubs">CLUBS & RIVALITÉS</button>
+    <button id="tabPlay">ACCUEIL</button><button id="tabRank">CLASSEMENT</button><button id="tabHall">HALL OF FAME</button><button id="tabClubs">CLUBS</button><button id="tabFriends">AMIS</button><button id="tabProfile">PROFIL</button>
   </nav>
   <div class="menu-grid" id="menuGrid">
-    <button class="mode-card ranked" id="rankedBtn">
-      <div class="mode-icon">01</div><h2>MODE CLASSÉ</h2>
-      <p>Entraîne-toi sur le circuit et vise la première place.</p><span class="mode-tag">SAISON COMPÉTITIVE · PROTOTYPE</span>
-    </button>
-    <button class="mode-card" id="quickBtn">
-      <div class="mode-icon">02</div><h2>COURSE RAPIDE</h2>
-      <p>Lance une course contre les rivaux contrôlés par le jeu.</p><span class="mode-tag">DISPONIBLE</span>
-    </button>
-    <button class="mode-card friends" id="friendsBtn">
-      <div class="mode-icon">03</div><h2>JOUER AVEC DES AMIS</h2>
-      <p>Prépare un salon et retrouve tes amis pour une future course en ligne.</p><span class="mode-tag">SALON EN LIGNE À VENIR</span>
-    </button>
-    <button class="mode-card" id="profileBtn"><div class="mode-icon">04</div><h2>MON PROFIL</h2><p>Consulte ton ELO, tes victoires et tes records.</p><span class="mode-tag">TES STATISTIQUES</span></button>
+    <button class="mode-card ranked" id="rankedBtn"><div class="mode-icon">🏆</div><h2>JOUER EN CLASSÉ</h2><p>Grimpe les rangs et gagne de l'ELO face à tes rivaux.</p><span class="mode-tag">SAISON COMPÉTITIVE</span></button>
+    <button class="mode-card" id="quickBtn"><div class="mode-icon">🏎</div><h2>COURSE RAPIDE</h2><p>Pars sur un circuit choisi au hasard et bats l'IA.</p><span class="mode-tag">LANCEMENT RAPIDE</span></button>
+    <button class="mode-card friends" id="friendsBtn"><div class="mode-icon">👥</div><h2>JOUER AVEC DES AMIS</h2><p>Prépare un salon et retrouve tes amis.</p><span class="mode-tag">MULTIJOUEUR À VENIR</span></button>
+    <button class="mode-card" id="createTournamentBtn"><div class="mode-icon">🏅</div><h2>CRÉER UN TOURNOI</h2><p>Prépare une compétition et génère un code de tournoi.</p><span class="mode-tag">ESPACE TOURNOI</span></button>
+    <button class="mode-card" id="joinTournamentBtn"><div class="mode-icon">🎟</div><h2>REJOINDRE UN TOURNOI</h2><p>Entre un code pour rejoindre une compétition.</p><span class="mode-tag">AVEC UN CODE</span></button>
+    <button class="mode-card" id="profileBtn"><div class="mode-icon">📊</div><h2>MON PROFIL</h2><p>Retrouve ton rang, ton ELO et tes statistiques.</p><span class="mode-tag">ESPACE PILOTE</span></button>
   </div>
+  <div class="menu-panel" id="rankPanel" hidden><h2>CLASSEMENT</h2><p>Classement local de démonstration. Le classement mondial arrivera avec le serveur en ligne.</p><div class="profile-grid"><div class="profile-stat"><small>TON ELO</small><strong id="rankElo">1000</strong></div><div class="profile-stat"><small>RANG</small><strong id="rankTier">BRONZE</strong></div><div class="profile-stat"><small>SAISON</small><strong>01</strong></div></div><div class="menu-actions"><button class="secondary-btn" id="closeRankBtn">RETOUR</button></div></div>
+  <div class="menu-panel" id="hallPanel" hidden><h2>HALL OF FAME</h2><p>Les meilleurs pilotes seront affichés ici lorsque les classements en ligne seront disponibles.</p><div class="profile-grid"><div class="profile-stat"><small>1 · CHAMPION</small><strong>—</strong></div><div class="profile-stat"><small>2 · ÉLITE</small><strong>—</strong></div><div class="profile-stat"><small>3 · RIVAL</small><strong>—</strong></div></div><div class="menu-actions"><button class="secondary-btn" id="closeHallBtn">RETOUR</button></div></div>
+  <div class="menu-panel" id="tournamentPanel" hidden><h2 id="tournamentTitle">TOURNOI RUSH RIVALS</h2><p id="tournamentDesc">Prépare un tournoi local. La participation en ligne arrivera avec le serveur.</p><div class="room-code" id="tournamentCode">RR-????</div><input class="friend-input" id="tournamentInput" maxlength="12" placeholder="Code du tournoi" hidden><div class="menu-actions"><button class="main-btn" id="tournamentActionBtn">GÉNÉRER UN CODE</button><button class="secondary-btn" id="closeTournamentBtn">RETOUR</button></div><p id="tournamentMessage"></p></div>
   <div class="menu-panel" id="profilePanel" hidden>
     <h2>PROFIL DU PILOTE</h2><p id="profilePseudoLine">Pilote</p>
     <div class="profile-grid">
@@ -305,11 +354,22 @@ function refreshProfile(){
  $("profileRankText").textContent="Rang estimé : "+tier+" · ELO "+stats.elo+". Les résultats classés sont sauvegardés sur cet appareil.";
  $("rivalCount").textContent=stats.rivals||0;
 }
-function hidePanels(){["friendsPanel","profilePanel","clubsPanel"].forEach(id=>$(id).hidden=true);}
+function hidePanels(){["friendsPanel","profilePanel","clubsPanel","rankPanel","hallPanel","tournamentPanel"].forEach(id=>$(id).hidden=true);}
 $("tabPlay").addEventListener("click",()=>{hidePanels();$("menuGrid").style.display="grid";});
 function showPanel(id){hidePanels();$("menuGrid").style.display="none";$(id).hidden=false;refreshProfile();}
 $("tabProfile").addEventListener("click",()=>showPanel("profilePanel"));
 $("tabClubs").addEventListener("click",()=>showPanel("clubsPanel"));
+$("tabRank").addEventListener("click",()=>{showPanel("rankPanel");$("rankElo").textContent=stats.elo;$("rankTier").textContent=$("profileRankText").textContent.split(" ")[2].toUpperCase();});
+$("tabHall").addEventListener("click",()=>showPanel("hallPanel"));
+$("tabFriends").addEventListener("click",()=>{hidePanels();$("menuGrid").style.display="none";$("friendsPanel").hidden=false;});
+$("enterMenuBtn").addEventListener("click",()=>{$("introScreen").style.display="none";$("menuScreen").style.display="block";});
+$("closeRankBtn").addEventListener("click",()=>{$("rankPanel").hidden=true;$("menuGrid").style.display="grid";});
+$("closeHallBtn").addEventListener("click",()=>{$("hallPanel").hidden=true;$("menuGrid").style.display="grid";});
+function openTournament(create){hidePanels();$("menuGrid").style.display="none";$("tournamentPanel").hidden=false;$("tournamentTitle").textContent=create?"CRÉER UN TOURNOI":"REJOINDRE UN TOURNOI";$("tournamentInput").hidden=create;$("tournamentCode").textContent=create?"RR-????":"ENTRE TON CODE";$("tournamentActionBtn").textContent=create?"GÉNÉRER UN CODE":"VALIDER LE CODE";$("tournamentActionBtn").dataset.mode=create?"create":"join";}
+$("createTournamentBtn").addEventListener("click",()=>openTournament(true));
+$("joinTournamentBtn").addEventListener("click",()=>openTournament(false));
+$("closeTournamentBtn").addEventListener("click",()=>{$("tournamentPanel").hidden=true;$("menuGrid").style.display="grid";});
+$("tournamentActionBtn").addEventListener("click",()=>{if($("tournamentActionBtn").dataset.mode==="create"){$("tournamentCode").textContent="RR-"+Math.random().toString(36).slice(2,7).toUpperCase();$("tournamentMessage").textContent="Code créé localement. Le tournoi n'est pas encore joignable en ligne.";}else{const code=$("tournamentInput").value.trim().toUpperCase();$("tournamentMessage").textContent=code.length>=4?"Code noté : "+code+". La connexion en ligne sera ajoutée plus tard.":"Entre un code valide.";}});
 $("profileBtn").addEventListener("click",()=>showPanel("profilePanel"));
 $("closeProfileBtn").addEventListener("click",()=>{hidePanels();$("menuGrid").style.display="grid";});
 $("closeClubsBtn").addEventListener("click",()=>{hidePanels();$("menuGrid").style.display="grid";});
@@ -343,10 +403,10 @@ document.getElementById("rankedBtn").addEventListener("click",()=>enterGame("CLA
 document.getElementById("quickBtn").addEventListener("click",()=>enterGame("COURSE RAPIDE"));
 document.getElementById("friendsBtn").addEventListener("click",()=>{
  if(!localStorage.getItem("rushRivalsPseudo") && !savePseudo()){pseudoInput.focus();return;}
- document.getElementById("friendsPanel").hidden=false;
+ hidePanels();document.getElementById("menuGrid").style.display="none";document.getElementById("friendsPanel").hidden=false;
  document.getElementById("friendsPanel").scrollIntoView({behavior:"smooth",block:"center"});
 });
-document.getElementById("closeFriendsBtn").addEventListener("click",()=>document.getElementById("friendsPanel").hidden=true);
+document.getElementById("closeFriendsBtn").addEventListener("click",()=>{document.getElementById("friendsPanel").hidden=true;document.getElementById("menuGrid").style.display="grid";});
 document.getElementById("newRoomBtn").addEventListener("click",()=>{
  document.getElementById("roomCode").textContent="RR-"+Math.random().toString(36).slice(2,6).toUpperCase();
 });
