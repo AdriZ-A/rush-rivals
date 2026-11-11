@@ -82,13 +82,93 @@ button {cursor:pointer;border:0;font-family:Orbitron,sans-serif;font-weight:800;
  .subtitle{font-size:16px}
  .controls{font-size:14px}
 }
-</style>
+
+/* MAIN MENU */
+.menu-screen{max-width:1120px;margin:0 auto;padding:28px 22px 48px;position:relative;min-height:100vh}
+.menu-top{display:flex;justify-content:space-between;align-items:center;gap:15px}
+.menu-profile{border:1px solid #00f5ff66;background:#0c1428;padding:10px 15px;border-radius:12px;color:#bdefff;font-family:Orbitron,sans-serif;font-size:11px}
+.menu-hero{text-align:center;padding:8vh 0 5vh}
+.menu-hero h1{font-size:clamp(48px,10vw,92px);margin:18px 0}
+.menu-hero p{color:#aeb6d8;font-size:20px;letter-spacing:2px}
+.pseudo-box{max-width:430px;margin:25px auto 0;padding:18px;border:1px solid #00f5ff55;border-radius:15px;background:#0b1024}
+.pseudo-box label{display:block;text-align:left;color:#aab8d8;font-family:Orbitron,sans-serif;font-size:10px;letter-spacing:2px;margin-bottom:8px}
+.pseudo-row{display:flex;gap:8px}
+.pseudo-row input,.friend-input{min-width:0;flex:1;background:#070b18;border:1px solid #46547d;border-radius:8px;padding:13px;color:white;font:600 17px Rajdhani,sans-serif;outline:none}
+.pseudo-row input:focus,.friend-input:focus{border-color:var(--cyan)}
+.menu-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:1000px;margin:0 auto}
+.mode-card{position:relative;min-height:190px;padding:22px;text-align:left;border:1px solid #52618b88;border-radius:17px;background:linear-gradient(145deg,#171d3b,#0c1022);color:white;transition:.2s;overflow:hidden}
+.mode-card:hover{transform:translateY(-5px);border-color:var(--cyan);box-shadow:0 0 25px #00f5ff22}
+.mode-card .mode-icon{font-size:28px;color:var(--cyan);font-family:Orbitron,sans-serif}
+.mode-card h2{font:800 19px Orbitron,sans-serif;letter-spacing:1px;margin:17px 0 8px}
+.mode-card p{color:#aeb8d5;font-size:16px;line-height:1.35;margin:0}
+.mode-card .mode-tag{display:inline-block;margin-top:15px;color:#8df8ee;font:10px Orbitron,sans-serif;letter-spacing:1px}
+.mode-card.ranked{border-color:#ffe66d66}.mode-card.ranked .mode-icon{color:var(--yellow)}
+.mode-card.friends{border-color:#ff38c766}.mode-card.friends .mode-icon{color:var(--pink)}
+.menu-note{text-align:center;color:#6f7c9e;font-size:13px;max-width:800px;margin:28px auto 0;line-height:1.5}
+.menu-panel{max-width:560px;margin:28px auto 0;padding:22px;border:1px solid #ff38c777;border-radius:16px;background:#141027}
+.menu-panel h2{font:800 19px Orbitron,sans-serif;color:#ff8cde}
+.menu-panel p{color:#c0c7df;line-height:1.5}
+.menu-panel .room-code{font:800 27px Orbitron,sans-serif;letter-spacing:5px;color:var(--cyan);padding:14px;background:#070b18;border-radius:9px;text-align:center;margin:14px 0}
+.menu-panel[hidden]{display:none}
+.menu-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:15px}
+.menu-actions button{padding:12px 16px;border-radius:8px}
+.secondary-btn{background:#202944;color:#dce7ff;border:1px solid #65749c}
+.game-menu-btn{padding:10px 15px;border:1px solid #00f5ff66;color:var(--cyan);background:#00f5ff10;border-radius:8px;font-size:10px}
+.game-title-row{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}
+#gameScreen{display:none}
+@media(max-width:760px){.menu-grid{grid-template-columns:1fr}.menu-hero{padding:6vh 0 4vh}.menu-screen{padding:18px 12px 35px}.menu-top{align-items:flex-start}.pseudo-row{flex-direction:column}}
+\n</style>
 </head>
 <body>
-<div class="page">
+
+<section class="menu-screen" id="menuScreen">
+  <div class="menu-top">
+    <div class="brand">RUSH <span>RIVALS</span></div>
+    <div class="menu-profile">PILOTE : <span id="profileName">INVITÉ</span></div>
+  </div>
+  <header class="menu-hero">
+    <div class="kicker">THE NEXT RACING GENERATION</div>
+    <h1>RUSH RIVALS</h1>
+    <p>CHOISIS TON DÉFI. IMPOSE TON STYLE.</p>
+    <div class="pseudo-box">
+      <label for="pseudoInput">TON PSEUDO DE PILOTE</label>
+      <div class="pseudo-row">
+        <input id="pseudoInput" maxlength="16" autocomplete="nickname" placeholder="Ex : NeonRacer" aria-label="Ton pseudo">
+        <button class="main-btn" id="savePseudoBtn">VALIDER</button>
+      </div>
+      <div id="pseudoMessage" style="color:#ff8cde;font-size:13px;text-align:left;margin-top:8px;min-height:16px"></div>
+    </div>
+  </header>
+  <div class="menu-grid">
+    <button class="mode-card ranked" id="rankedBtn">
+      <div class="mode-icon">01</div><h2>MODE CLASSÉ</h2>
+      <p>Entraîne-toi sur le circuit et vise la première place.</p><span class="mode-tag">SAISON COMPÉTITIVE · PROTOTYPE</span>
+    </button>
+    <button class="mode-card" id="quickBtn">
+      <div class="mode-icon">02</div><h2>COURSE RAPIDE</h2>
+      <p>Lance une course contre les rivaux contrôlés par le jeu.</p><span class="mode-tag">DISPONIBLE</span>
+    </button>
+    <button class="mode-card friends" id="friendsBtn">
+      <div class="mode-icon">03</div><h2>JOUER AVEC DES AMIS</h2>
+      <p>Prépare un salon et retrouve tes amis pour une future course en ligne.</p><span class="mode-tag">SALON EN LIGNE À VENIR</span>
+    </button>
+  </div>
+  <div class="menu-panel" id="friendsPanel" hidden>
+    <h2>SALON ENTRE AMIS</h2>
+    <p>Voici l'écran de préparation du salon. Les invitations et les courses multijoueurs nécessitent encore un serveur : aucun ami ne peut rejoindre ce salon pour le moment.</p>
+    <div class="room-code" id="roomCode">----</div>
+    <div class="menu-actions">
+      <button class="main-btn" id="newRoomBtn">GÉNÉRER UN CODE</button>
+      <button class="secondary-btn" id="closeFriendsBtn">FERMER</button>
+    </div>
+  </div>
+  <p class="menu-note">Ton pseudo est conservé sur cet appareil. Le classement mondial, les comptes et le multijoueur en ligne seront ajoutés avec le serveur du jeu. Pour l'instant, les courses sont jouées localement contre l'IA.</p>
+  <div class="footer">RUSH RIVALS · DRIVE FAST · RACE FAIR · WIN BIG</div>
+</section>
+\n<div class="page" id="gameScreen">
   <div class="topbar">
     <div class="brand">RUSH <span>RIVALS</span></div>
-    <div class="status">● NEON EDITION</div>
+    <div style="display:flex;gap:10px;align-items:center"><div class="status" id="gameModeLabel">COURSE RAPIDE</div><button class="game-menu-btn" id="backToMenuBtn">MENU PRINCIPAL</button></div>
   </div>
 
   <header class="hero">
@@ -132,6 +212,46 @@ button {cursor:pointer;border:0;font-family:Orbitron,sans-serif;font-weight:800;
 </div>
 
 <script>
+
+const pseudoInput=document.getElementById("pseudoInput");
+const storedPseudo=localStorage.getItem("rushRivalsPseudo")||"";
+pseudoInput.value=storedPseudo;
+document.getElementById("profileName").textContent=storedPseudo||"INVITÉ";
+function savePseudo(){
+ const value=pseudoInput.value.trim().replace(/[^a-zA-Z0-9_ -]/g,"").slice(0,16);
+ if(value.length<2){document.getElementById("pseudoMessage").textContent="Choisis un pseudo de 2 à 16 caractères.";return false;}
+ localStorage.setItem("rushRivalsPseudo",value);
+ pseudoInput.value=value;
+ document.getElementById("profileName").textContent=value;
+ document.getElementById("pseudoMessage").textContent="Pseudo enregistré sur cet appareil.";
+ return true;
+}
+document.getElementById("savePseudoBtn").addEventListener("click",savePseudo);
+pseudoInput.addEventListener("keydown",e=>{if(e.key==="Enter")savePseudo()});
+function enterGame(mode){
+ if(!localStorage.getItem("rushRivalsPseudo") && !savePseudo()) {pseudoInput.focus();return;}
+ document.getElementById("gameModeLabel").textContent=mode;
+ document.getElementById("menuScreen").style.display="none";
+ document.getElementById("gameScreen").style.display="block";
+ reset();
+}
+document.getElementById("rankedBtn").addEventListener("click",()=>enterGame("CLASSÉ · ENTRAÎNEMENT LOCAL"));
+document.getElementById("quickBtn").addEventListener("click",()=>enterGame("COURSE RAPIDE"));
+document.getElementById("friendsBtn").addEventListener("click",()=>{
+ if(!localStorage.getItem("rushRivalsPseudo") && !savePseudo()){pseudoInput.focus();return;}
+ document.getElementById("friendsPanel").hidden=false;
+ document.getElementById("friendsPanel").scrollIntoView({behavior:"smooth",block:"center"});
+});
+document.getElementById("closeFriendsBtn").addEventListener("click",()=>document.getElementById("friendsPanel").hidden=true);
+document.getElementById("newRoomBtn").addEventListener("click",()=>{
+ document.getElementById("roomCode").textContent="RR-"+Math.random().toString(36).slice(2,6).toUpperCase();
+});
+document.getElementById("backToMenuBtn").addEventListener("click",()=>{
+ running=false;
+ document.getElementById("gameScreen").style.display="none";
+ document.getElementById("menuScreen").style.display="block";
+ document.getElementById("friendsPanel").hidden=true;
+});
 const canvas=document.getElementById("game");
 const ctx=canvas.getContext("2d");
 const W=1000,H=650,cx=500,cy=325,rx=365,ry=245;
