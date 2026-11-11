@@ -275,6 +275,7 @@ button {cursor:pointer;border:0;font-family:Orbitron,sans-serif;font-weight:800;
 
 <script>
 
+const $=id=>document.getElementById(id);
 const pseudoInput=document.getElementById("pseudoInput");
 const storedPseudo=localStorage.getItem("rushRivalsPseudo")||"";
 const readStats=()=>JSON.parse(localStorage.getItem("rushRivalsStats")||'{"elo":1000,"races":0,"wins":0,"podiums":0,"best":null,"rivals":0}');
@@ -358,7 +359,6 @@ document.getElementById("backToMenuBtn").addEventListener("click",()=>{
 const canvas=document.getElementById("game");
 const ctx=canvas.getContext("2d");
 const W=1000,H=650,cx=500,cy=325;let rx=365,ry=245;
-const $=id=>document.getElementById(id);
 let running=false,finished=false,last=0,elapsed=0,lap=0,player, rivals=[],particles=[];
 const colors=["#00f5ff","#ff38c7","#ffe66d","#9b5cff"];
 
