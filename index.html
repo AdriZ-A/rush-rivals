@@ -117,7 +117,46 @@ button {cursor:pointer;border:0;font-family:Orbitron,sans-serif;font-weight:800;
 .game-title-row{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}
 #gameScreen{display:none}
 @media(max-width:760px){.menu-grid{grid-template-columns:1fr}.menu-hero{padding:6vh 0 4vh}.menu-screen{padding:18px 12px 35px}.menu-top{align-items:flex-start}.pseudo-row{flex-direction:column}}
-\n</style>
+\n
+/* MENU COLORÉ, PROFIL ET CIRCUITS */
+:root{--lime:#b8ff5c;--orange:#ff9b42;--blue:#5d8dff}
+.menu-screen{background:radial-gradient(ellipse at 12% 32%,#ff38c733,transparent 34%),radial-gradient(ellipse at 88% 18%,#00eaff2c,transparent 32%),radial-gradient(ellipse at 50% 95%,#ffe66d20,transparent 40%)}
+.menu-hero h1{filter:drop-shadow(0 0 24px #ff38c755)}
+.menu-hero p{color:#e0c9ff}
+.pseudo-box{background:linear-gradient(135deg,#251344,#102b48);border:1px solid #ff8bdb99;box-shadow:0 12px 35px #0005}
+.menu-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+.mode-card{background:linear-gradient(145deg,#34205b,#122f50 65%,#14213b);border:2px solid #ffffff25;box-shadow:0 10px 25px #0004}
+.mode-card:nth-child(1){background:linear-gradient(145deg,#584016,#30204f);border-color:#ffe66d99}
+.mode-card:nth-child(2){background:linear-gradient(145deg,#11465a,#22215a);border-color:#00f5ff88}
+.mode-card:nth-child(3){background:linear-gradient(145deg,#571b50,#292052);border-color:#ff38c788}
+.mode-card:nth-child(4){background:linear-gradient(145deg,#244e37,#17364d);border-color:#b8ff5c88}
+.mode-card .mode-icon{font-size:32px;color:#fff;text-shadow:0 0 15px currentColor}
+.mode-card h2{font-size:16px}.mode-card p{color:#e0ddf6}
+.menu-profile{background:linear-gradient(100deg,#48225b,#164b60);border-color:#ffffff55;color:#fff}
+.menu-panel{background:linear-gradient(135deg,#3b174c,#152e50);border-color:#ff8bdb}
+.menu-note{color:#b9c8ef}
+.menu-tabs{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;margin:0 auto 20px}
+.menu-tabs button{padding:10px 17px;border-radius:30px;color:#fff;background:#ffffff15;border:1px solid #ffffff44;font-size:10px}
+.menu-tabs button:hover{background:#ffffff30;transform:translateY(-2px)}
+.profile-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0}
+.profile-stat{background:#080d26aa;border:1px solid #ffffff25;border-radius:12px;padding:14px;text-align:center}
+.profile-stat small{display:block;color:#c2c8e8;font:10px Orbitron,sans-serif;margin-bottom:7px}
+.profile-stat strong{font:800 23px Orbitron,sans-serif;color:#ffe66d}
+.panel-subtitle{font:800 18px Orbitron,sans-serif;color:#fff}
+.loading-screen{position:absolute;inset:0;z-index:5;display:flex;align-items:center;justify-content:center;text-align:center;padding:20px;background:radial-gradient(circle at 50% 45%,#59308b,#10132d 65%,#080914);backdrop-filter:blur(9px)}
+.loading-screen[hidden]{display:none}
+.loading-card{max-width:520px;width:100%}
+.loading-logo{font:900 clamp(28px,6vw,48px) Orbitron,sans-serif;background:linear-gradient(90deg,#00f5ff,#ff38c7,#ffe66d);color:transparent;background-clip:text}
+.loading-track{font:800 19px Orbitron,sans-serif;color:#fff;margin:18px 0 8px}
+.loading-sub{color:#c6c9ed;font-size:16px}
+.loading-bar{height:10px;background:#ffffff22;border-radius:20px;overflow:hidden;margin:22px 0}
+.loading-bar span{display:block;height:100%;width:35%;border-radius:20px;background:linear-gradient(90deg,#00f5ff,#ff38c7,#ffe66d);animation:loadbar 1.25s ease-in-out forwards}
+@keyframes loadbar{to{width:100%}}
+.circuit-chip{display:inline-block;padding:7px 12px;border-radius:20px;background:#ffffff18;border:1px solid #ffffff35;color:#fff;font:10px Orbitron,sans-serif;letter-spacing:1px}
+@media(max-width:850px){.menu-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.menu-grid{grid-template-columns:1fr}.profile-grid{grid-template-columns:repeat(2,1fr)}}
+
+</style>
 </head>
 <body>
 
@@ -139,7 +178,10 @@ button {cursor:pointer;border:0;font-family:Orbitron,sans-serif;font-weight:800;
       <div id="pseudoMessage" style="color:#ff8cde;font-size:13px;text-align:left;margin-top:8px;min-height:16px"></div>
     </div>
   </header>
-  <div class="menu-grid">
+  <nav class="menu-tabs">
+    <button id="tabPlay">ACCUEIL</button><button id="tabProfile">MON PROFIL</button><button id="tabClubs">CLUBS & RIVALITÉS</button>
+  </nav>
+  <div class="menu-grid" id="menuGrid">
     <button class="mode-card ranked" id="rankedBtn">
       <div class="mode-icon">01</div><h2>MODE CLASSÉ</h2>
       <p>Entraîne-toi sur le circuit et vise la première place.</p><span class="mode-tag">SAISON COMPÉTITIVE · PROTOTYPE</span>
@@ -152,6 +194,25 @@ button {cursor:pointer;border:0;font-family:Orbitron,sans-serif;font-weight:800;
       <div class="mode-icon">03</div><h2>JOUER AVEC DES AMIS</h2>
       <p>Prépare un salon et retrouve tes amis pour une future course en ligne.</p><span class="mode-tag">SALON EN LIGNE À VENIR</span>
     </button>
+    <button class="mode-card" id="profileBtn"><div class="mode-icon">04</div><h2>MON PROFIL</h2><p>Consulte ton ELO, tes victoires et tes records.</p><span class="mode-tag">TES STATISTIQUES</span></button>
+  </div>
+  <div class="menu-panel" id="profilePanel" hidden>
+    <h2>PROFIL DU PILOTE</h2><p id="profilePseudoLine">Pilote</p>
+    <div class="profile-grid">
+      <div class="profile-stat"><small>ELO CLASSÉ</small><strong id="statElo">1000</strong></div>
+      <div class="profile-stat"><small>COURSES</small><strong id="statRaces">0</strong></div>
+      <div class="profile-stat"><small>VICTOIRES</small><strong id="statWins">0</strong></div>
+      <div class="profile-stat"><small>TOP 3</small><strong id="statPodiums">0</strong></div>
+      <div class="profile-stat"><small>TAUX DE VICTOIRE</small><strong id="statWinRate">0%</strong></div>
+      <div class="profile-stat"><small>MEILLEUR TEMPS</small><strong id="statBest">--:--</strong></div>
+    </div>
+    <p id="profileRankText">Rang : Bronze — continue à courir pour progresser !</p>
+    <div class="menu-actions"><button class="secondary-btn" id="closeProfileBtn">RETOUR</button></div>
+  </div>
+  <div class="menu-panel" id="clubsPanel" hidden>
+    <h2>CLUBS & RIVALITÉS</h2><p>Les clubs permettront de réunir des pilotes, suivre les duels et organiser des championnats entre amis. Cette première version prépare l'espace : les fonctions en ligne arriveront avec le serveur.</p>
+    <div class="profile-grid"><div class="profile-stat"><small>TON CLUB</small><strong style="font-size:15px">SOLO</strong></div><div class="profile-stat"><small>RIVALITÉS</small><strong id="rivalCount">0</strong></div><div class="profile-stat"><small>DUELS</small><strong>0</strong></div></div>
+    <div class="menu-actions"><button class="secondary-btn" id="closeClubsBtn">RETOUR</button></div>
   </div>
   <div class="menu-panel" id="friendsPanel" hidden>
     <h2>SALON ENTRE AMIS</h2>
@@ -187,6 +248,7 @@ button {cursor:pointer;border:0;font-family:Orbitron,sans-serif;font-weight:800;
 
     <div class="game-wrap">
       <canvas id="game" width="1000" height="650"></canvas>
+      <div class="loading-screen" id="loadingScreen" hidden><div class="loading-card"><div class="loading-logo">RUSH RIVALS</div><div class="circuit-chip" id="loadingCircuitType">CIRCUIT SÉLECTIONNÉ AU HASARD</div><div class="loading-track" id="loadingCircuitName">NEON HARBOR</div><div class="loading-sub">Préparation de la grille… attache ta ceinture !</div><div class="loading-bar"><span></span></div><div class="loading-sub">CHARGEMENT DE LA COURSE</div></div></div>
       <div class="overlay" id="overlay">
         <div class="overlay-card">
           <div class="kicker">READY TO RACE?</div>
@@ -215,8 +277,41 @@ button {cursor:pointer;border:0;font-family:Orbitron,sans-serif;font-weight:800;
 
 const pseudoInput=document.getElementById("pseudoInput");
 const storedPseudo=localStorage.getItem("rushRivalsPseudo")||"";
+const readStats=()=>JSON.parse(localStorage.getItem("rushRivalsStats")||'{"elo":1000,"races":0,"wins":0,"podiums":0,"best":null,"rivals":0}');
+let stats=readStats();
+const circuits=[
+{name:"NEON HARBOR",type:"PORTUAIRE · NUIT",rx:365,ry:245,glow:"#00f5ff",accent:"#ff38c7"},
+{name:"SUNSET CANYON",type:"DÉSERT · COUCHER DE SOLEIL",rx:390,ry:205,glow:"#ff9b42",accent:"#ffe66d"},
+{name:"FROST PEAK",type:"MONTAGNE · GLACE",rx:330,ry:265,glow:"#8eeaff",accent:"#b8caff"},
+{name:"PIXEL GARDEN",type:"JARDIN · ARCADES",rx:375,ry:225,glow:"#b8ff5c",accent:"#ff70c8"},
+{name:"VOLT FACTORY",type:"USINE · NÉONS",rx:350,ry:255,glow:"#ffe66d",accent:"#00f5ff"},
+{name:"MOONLIGHT BAY",type:"CÔTE · CLAIR DE LUNE",rx:405,ry:190,glow:"#9b8cff",accent:"#00f5ff"},
+{name:"JUNGLE RUN",type:"JUNGLE · TROPICAL",rx:340,ry:270,glow:"#69ff9b",accent:"#ffe66d"},
+{name:"CRYSTAL DOME",type:"DÔME · FUTURISTE",rx:385,ry:235,glow:"#ff8be8",accent:"#8eeaff"},
+{name:"METRO RUSH",type:"VILLE · MÉTRO",rx:355,ry:215,glow:"#ff4f72",accent:"#ffe66d"},
+{name:"SKYLINE LOOP",type:"TOITS · HAUTE ALTITUDE",rx:400,ry:250,glow:"#70a5ff",accent:"#ff8be8"}
+];
+let currentCircuit=circuits[0],currentMode="COURSE RAPIDE";
 pseudoInput.value=storedPseudo;
 document.getElementById("profileName").textContent=storedPseudo||"INVITÉ";
+function saveStats(){localStorage.setItem("rushRivalsStats",JSON.stringify(stats));}
+function refreshProfile(){
+ stats=readStats();const pseudo=localStorage.getItem("rushRivalsPseudo")||"Pilote";
+ $("profilePseudoLine").textContent="PILOTE : "+pseudo;
+ $("statElo").textContent=stats.elo;$("statRaces").textContent=stats.races;$("statWins").textContent=stats.wins;$("statPodiums").textContent=stats.podiums;
+ $("statWinRate").textContent=(stats.races?Math.round(stats.wins/stats.races*100):0)+"%";$("statBest").textContent=stats.best||"--:--";
+ const tier=stats.elo<1100?"Bronze":stats.elo<1300?"Argent":stats.elo<1500?"Or":stats.elo<1800?"Platine":stats.elo<2100?"Diamant":"Champion";
+ $("profileRankText").textContent="Rang estimé : "+tier+" · ELO "+stats.elo+". Les résultats classés sont sauvegardés sur cet appareil.";
+ $("rivalCount").textContent=stats.rivals||0;
+}
+function hidePanels(){["friendsPanel","profilePanel","clubsPanel"].forEach(id=>$(id).hidden=true);}
+$("tabPlay").addEventListener("click",()=>{hidePanels();$("menuGrid").style.display="grid";});
+function showPanel(id){hidePanels();$("menuGrid").style.display="none";$(id).hidden=false;refreshProfile();}
+$("tabProfile").addEventListener("click",()=>showPanel("profilePanel"));
+$("tabClubs").addEventListener("click",()=>showPanel("clubsPanel"));
+$("profileBtn").addEventListener("click",()=>showPanel("profilePanel"));
+$("closeProfileBtn").addEventListener("click",()=>{hidePanels();$("menuGrid").style.display="grid";});
+$("closeClubsBtn").addEventListener("click",()=>{hidePanels();$("menuGrid").style.display="grid";});
 function savePseudo(){
  const value=pseudoInput.value.trim().replace(/[^a-zA-Z0-9_ -]/g,"").slice(0,16);
  if(value.length<2){document.getElementById("pseudoMessage").textContent="Choisis un pseudo de 2 à 16 caractères.";return false;}
@@ -230,7 +325,12 @@ document.getElementById("savePseudoBtn").addEventListener("click",savePseudo);
 pseudoInput.addEventListener("keydown",e=>{if(e.key==="Enter")savePseudo()});
 function enterGame(mode){
  if(!localStorage.getItem("rushRivalsPseudo") && !savePseudo()) {pseudoInput.focus();return;}
+ currentMode=mode;
+ currentCircuit=circuits[Math.floor(Math.random()*circuits.length)];
+ rx=currentCircuit.rx;ry=currentCircuit.ry;
  document.getElementById("gameModeLabel").textContent=mode;
+ document.getElementById("loadingCircuitName").textContent=currentCircuit.name;
+ document.getElementById("loadingCircuitType").textContent=currentCircuit.type;
  document.getElementById("menuScreen").style.display="none";
  document.getElementById("gameScreen").style.display="block";
  reset();
@@ -250,11 +350,11 @@ document.getElementById("backToMenuBtn").addEventListener("click",()=>{
  running=false;
  document.getElementById("gameScreen").style.display="none";
  document.getElementById("menuScreen").style.display="block";
- document.getElementById("friendsPanel").hidden=true;
+ hidePanels();$("menuGrid").style.display="grid";
 });
 const canvas=document.getElementById("game");
 const ctx=canvas.getContext("2d");
-const W=1000,H=650,cx=500,cy=325,rx=365,ry=245;
+const W=1000,H=650,cx=500,cy=325;let rx=365,ry=245;
 const $=id=>document.getElementById(id);
 let running=false,finished=false,last=0,elapsed=0,lap=0,player, rivals=[],particles=[];
 const colors=["#00f5ff","#ff38c7","#ffe66d","#9b5cff"];
@@ -310,7 +410,7 @@ function drawTrack(){
  ctx.save();
  ctx.beginPath();ctx.ellipse(cx,cy,rx+64,ry+64,0,0,Math.PI*2);
  ctx.fillStyle="#142e32";ctx.fill();
- ctx.shadowBlur=22;ctx.shadowColor="#00f5ff";ctx.strokeStyle="#00eaff";ctx.lineWidth=5;ctx.stroke();
+ ctx.shadowBlur=22;ctx.shadowColor=currentCircuit.glow;ctx.strokeStyle=currentCircuit.glow;ctx.lineWidth=5;ctx.stroke();
  ctx.shadowBlur=0;
  ctx.beginPath();ctx.ellipse(cx,cy,rx,ry,0,0,Math.PI*2);
  ctx.fillStyle="#252b3a";ctx.fill();
@@ -320,7 +420,7 @@ function drawTrack(){
  ctx.setLineDash([]);ctx.globalAlpha=1;
  ctx.beginPath();ctx.ellipse(cx,cy,rx-64,ry-64,0,0,Math.PI*2);
  ctx.fillStyle="#10251f";ctx.fill();
- ctx.shadowBlur=18;ctx.shadowColor="#ff38c7";ctx.strokeStyle="#ff38c7";ctx.lineWidth=4;ctx.stroke();
+ ctx.shadowBlur=18;ctx.shadowColor=currentCircuit.accent;ctx.strokeStyle=currentCircuit.accent;ctx.lineWidth=4;ctx.stroke();
  ctx.shadowBlur=0;
  // Ligne de départ
  let p=trackPoint(Math.PI*1.5);
@@ -334,7 +434,7 @@ function drawTrack(){
  ctx.textAlign="center";ctx.font="900 34px Orbitron";ctx.fillStyle="#ffffff12";
  ctx.fillText("RUSH",cx,cy-8);ctx.fillText("RIVALS",cx,cy+32);
  ctx.font="12px Orbitron";ctx.fillStyle="#00f5ff55";
- ctx.fillText("NEON CIRCUIT · 01",cx,cy+58);
+ ctx.fillText(currentCircuit.name,cx,cy+58);
  ctx.restore();
 }
 function drawCar(x,y,angle,color,isPlayer=false){
@@ -408,8 +508,16 @@ function endRace(){
  if(finished)return;
  finished=true;running=false;
  let pos=Number($("position").textContent[0]);
+ if(currentMode.includes("CLASSÉ")){
+  stats=readStats();stats.races++;
+  if(pos===1){stats.wins++;stats.elo+=25;}else if(pos===2){stats.podiums++;stats.elo+=10;}else if(pos===3){stats.podiums++;stats.elo-=5;}else{stats.elo-=18;}
+  stats.elo=Math.max(0,stats.elo);
+  if(pos===1||pos===2||pos===3)stats.rivals=(stats.rivals||0)+1;
+  const resultTime=fmt(elapsed);if(!stats.best||resultTime<stats.best)stats.best=resultTime;
+  saveStats();
+ }
  $("overlayTitle").textContent=pos===1?"VICTOIRE !":"COURSE TERMINÉE";
- $("overlayText").textContent="Temps : "+fmt(elapsed)+" · Position : "+pos+" sur 4. "+(pos===1?"Tu as dominé le circuit !":"La prochaine course sera la bonne !");
+ $("overlayText").textContent="Circuit : "+currentCircuit.name+" · Temps : "+fmt(elapsed)+" · Position : "+pos+" sur 4. "+(currentMode.includes("CLASSÉ")?"ELO actuel : "+stats.elo+". ":"")+(pos===1?"Tu as dominé le circuit !":"La prochaine course sera la bonne !");
  $("startBtn").textContent="REJOUER";
  $("overlay").classList.remove("hidden");
 }
@@ -419,14 +527,22 @@ function frame(t){
  if(running)requestAnimationFrame(frame);
 }
 function start(){
+ if(running)return;
  if(finished)reset();
- running=true;finished=false;last=performance.now();
  $("overlay").classList.add("hidden");
- requestAnimationFrame(frame);
+ $("loadingScreen").hidden=false;
+ $("loadingCircuitName").textContent=currentCircuit.name;
+ $("loadingCircuitType").textContent=currentCircuit.type;
+ setTimeout(()=>{
+  $("loadingScreen").hidden=true;
+  running=true;finished=false;last=performance.now();
+  requestAnimationFrame(frame);
+ },1350);
 }
 $("startBtn").addEventListener("click",start);
 $("restartBtn").addEventListener("click",reset);
 reset();
+refreshProfile();
 </script>
 </body>
 </html>
