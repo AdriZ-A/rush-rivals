@@ -323,11 +323,14 @@ function savePseudo(){
 }
 document.getElementById("savePseudoBtn").addEventListener("click",savePseudo);
 pseudoInput.addEventListener("keydown",e=>{if(e.key==="Enter")savePseudo()});
+function chooseCircuit(){
+ currentCircuit=circuits[Math.floor(Math.random()*circuits.length)];rx=currentCircuit.rx;ry=currentCircuit.ry;
+ $("loadingCircuitName").textContent=currentCircuit.name;$("loadingCircuitType").textContent=currentCircuit.type;
+}
 function enterGame(mode){
  if(!localStorage.getItem("rushRivalsPseudo") && !savePseudo()) {pseudoInput.focus();return;}
  currentMode=mode;
- currentCircuit=circuits[Math.floor(Math.random()*circuits.length)];
- rx=currentCircuit.rx;ry=currentCircuit.ry;
+ chooseCircuit();
  document.getElementById("gameModeLabel").textContent=mode;
  document.getElementById("loadingCircuitName").textContent=currentCircuit.name;
  document.getElementById("loadingCircuitType").textContent=currentCircuit.type;
@@ -508,14 +511,15 @@ function endRace(){
  if(finished)return;
  finished=true;running=false;
  let pos=Number($("position").textContent[0]);
+ stats=readStats();stats.races++;
+ if(pos===1){stats.wins++;stats.podiums++;}else if(pos===2||pos===3){stats.podiums++;}
  if(currentMode.includes("CLASSÉ")){
-  stats=readStats();stats.races++;
-  if(pos===1){stats.wins++;stats.elo+=25;}else if(pos===2){stats.podiums++;stats.elo+=10;}else if(pos===3){stats.podiums++;stats.elo-=5;}else{stats.elo-=18;}
+  if(pos===1)stats.elo+=25;else if(pos===2)stats.elo+=10;else if(pos===3)stats.elo-=5;else stats.elo-=18;
   stats.elo=Math.max(0,stats.elo);
-  if(pos===1||pos===2||pos===3)stats.rivals=(stats.rivals||0)+1;
-  const resultTime=fmt(elapsed);if(!stats.best||resultTime<stats.best)stats.best=resultTime;
-  saveStats();
  }
+ if(pos===1||pos===2||pos===3)stats.rivals=(stats.rivals||0)+1;
+ const resultTime=fmt(elapsed);if(!stats.best||resultTime<stats.best)stats.best=resultTime;
+ saveStats();
  $("overlayTitle").textContent=pos===1?"VICTOIRE !":"COURSE TERMINÉE";
  $("overlayText").textContent="Circuit : "+currentCircuit.name+" · Temps : "+fmt(elapsed)+" · Position : "+pos+" sur 4. "+(currentMode.includes("CLASSÉ")?"ELO actuel : "+stats.elo+". ":"")+(pos===1?"Tu as dominé le circuit !":"La prochaine course sera la bonne !");
  $("startBtn").textContent="REJOUER";
@@ -529,6 +533,7 @@ function frame(t){
 function start(){
  if(running)return;
  if(finished)reset();
+ chooseCircuit();
  $("overlay").classList.add("hidden");
  $("loadingScreen").hidden=false;
  $("loadingCircuitName").textContent=currentCircuit.name;
