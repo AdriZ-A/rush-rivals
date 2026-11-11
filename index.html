@@ -281,7 +281,7 @@ body:before{opacity:.12;background-image:linear-gradient(#bdeaff18 1px,transpare
   <div class="menu-grid" id="menuGrid" hidden></div>
   <div class="menu-panel" id="rankPanel" hidden><h2>CLASSEMENT</h2><p>Classement local de démonstration. Le classement mondial arrivera avec le serveur en ligne.</p><div class="profile-grid"><div class="profile-stat"><small>TON ELO</small><strong id="rankElo">1000</strong></div><div class="profile-stat"><small>RANG</small><strong id="rankTier">BRONZE</strong></div><div class="profile-stat"><small>SAISON</small><strong>01</strong></div></div><div class="menu-actions"><button class="secondary-btn" id="closeRankBtn">RETOUR</button></div></div>
   <div class="menu-panel" id="hallPanel" hidden><h2>HALL OF FAME</h2><p>Les meilleurs pilotes seront affichés ici lorsque les classements en ligne seront disponibles.</p><div class="profile-grid"><div class="profile-stat"><small>1 · CHAMPION</small><strong>—</strong></div><div class="profile-stat"><small>2 · ÉLITE</small><strong>—</strong></div><div class="profile-stat"><small>3 · RIVAL</small><strong>—</strong></div></div><div class="menu-actions"><button class="secondary-btn" id="closeHallBtn">RETOUR</button></div></div>
-  <div class="menu-panel" id="tournamentPanel" hidden><h2 id="tournamentTitle">TOURNOI RUSH RIVALS</h2><p id="tournamentDesc">Prépare un tournoi local. La participation en ligne arrivera avec le serveur.</p><div class="room-code" id="tournamentCode">RR-????</div><input class="friend-input" id="tournamentInput" maxlength="12" placeholder="Code du tournoi" hidden><div class="menu-actions"><button class="main-btn" id="tournamentActionBtn">GÉNÉRER UN CODE</button><button class="secondary-btn" id="closeTournamentBtn">RETOUR</button></div><p id="tournamentMessage"></p></div>
+  <div class="menu-panel" id="tournamentPanel" hidden><h2 id="tournamentTitle">TOURNOI RUSH RIVALS</h2><p id="tournamentDesc">Prépare un tournoi local. La participation en ligne arrivera avec le serveur.</p><div class="room-code" id="tournamentCode">RR-????</div><input class="friend-input" id="tournamentInput" maxlength="12" placeholder="Code du tournoi" hidden><div class="menu-actions"><button class="main-btn" id="tournamentActionBtn">GÉNÉRER UN CODE</button><button class="secondary-btn" id="tournamentJoinChoiceBtn">REJOINDRE UN TOURNOI</button><button class="secondary-btn" id="closeTournamentBtn">RETOUR</button></div><p id="tournamentMessage"></p></div>
   <div class="menu-panel" id="profilePanel" hidden>
     <h2>PROFIL DU PILOTE</h2><p id="profilePseudoLine">Pilote</p>
     <div class="profile-grid">
@@ -404,10 +404,11 @@ $("closeRankBtn").addEventListener("click",()=>{$("rankPanel").hidden=true;$("me
 $("closeHallBtn").addEventListener("click",()=>{$("hallPanel").hidden=true;$("menuGrid").style.display="grid";});
 function openTournament(create){hidePanels();$("menuGrid").style.display="none";$("tournamentPanel").hidden=false;$("tournamentTitle").textContent=create?"CRÉER UN TOURNOI":"REJOINDRE UN TOURNOI";$("tournamentInput").hidden=create;$("tournamentCode").textContent=create?"RR-????":"ENTRE TON CODE";$("tournamentActionBtn").textContent=create?"GÉNÉRER UN CODE":"VALIDER LE CODE";$("tournamentActionBtn").dataset.mode=create?"create":"join";}
 $("createTournamentBtn").addEventListener("click",()=>openTournament(true));
-$("joinTournamentBtn").addEventListener("click",()=>openTournament(false));
+
 $("closeTournamentBtn").addEventListener("click",()=>{$("tournamentPanel").hidden=true;$("menuGrid").style.display="grid";});
+$("tournamentJoinChoiceBtn").addEventListener("click",()=>{openTournament(false);});
 $("tournamentActionBtn").addEventListener("click",()=>{if($("tournamentActionBtn").dataset.mode==="create"){$("tournamentCode").textContent="RR-"+Math.random().toString(36).slice(2,7).toUpperCase();$("tournamentMessage").textContent="Code créé localement. Le tournoi n'est pas encore joignable en ligne.";}else{const code=$("tournamentInput").value.trim().toUpperCase();$("tournamentMessage").textContent=code.length>=4?"Code noté : "+code+". La connexion en ligne sera ajoutée plus tard.":"Entre un code valide.";}});
-$("profileBtn").addEventListener("click",()=>showPanel("profilePanel"));
+
 $("closeProfileBtn").addEventListener("click",()=>{hidePanels();$("menuGrid").style.display="grid";});
 $("closeClubsBtn").addEventListener("click",()=>{hidePanels();$("menuGrid").style.display="grid";});
 function savePseudo(){
@@ -438,11 +439,6 @@ function enterGame(mode){
 }
 document.getElementById("rankedBtn").addEventListener("click",()=>enterGame("CLASSÉ · ENTRAÎNEMENT LOCAL"));
 document.getElementById("quickBtn").addEventListener("click",()=>enterGame("CHRONOMÈTRE SOLO"));
-document.getElementById("friendsBtn").addEventListener("click",()=>{
- if(!localStorage.getItem("rushRivalsPseudo") && !savePseudo()){pseudoInput.focus();return;}
- hidePanels();document.getElementById("menuGrid").style.display="none";document.getElementById("friendsPanel").hidden=false;
- document.getElementById("friendsPanel").scrollIntoView({behavior:"smooth",block:"center"});
-});
 document.getElementById("closeFriendsBtn").addEventListener("click",()=>{document.getElementById("friendsPanel").hidden=true;document.getElementById("menuGrid").style.display="grid";});
 document.getElementById("newRoomBtn").addEventListener("click",()=>{
  document.getElementById("roomCode").textContent="RR-"+Math.random().toString(36).slice(2,6).toUpperCase();
