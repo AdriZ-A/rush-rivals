@@ -207,6 +207,48 @@ body:before{opacity:.12;background-image:linear-gradient(#bdeaff18 1px,transpare
 @media(max-width:760px){.menu-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.pseudo-box{position:relative;top:auto;right:auto;width:min(430px,92%);margin:20px auto 0}.menu-hero{padding-top:30px}}
 @media(max-width:540px){.menu-grid{grid-template-columns:1fr}.menu-tabs{justify-content:center}.menu-tabs button{font-size:9px;padding:10px 12px}.menu-top{padding:16px}.intro-slogan{font-size:16px}}
 
+
+/* RÉORGANISATION : BANDEAU COMPACT ET 3 MODES */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap');
+.menu-screen{background:linear-gradient(180deg,#09264a 0,#09264a 25%,#d8efff 25%,#b9e1f7 100%);color:#153653;padding-bottom:34px}
+.menu-top{min-height:58px;padding:10px clamp(16px,4vw,48px);background:#08213f}
+.menu-top .brand{font-family:'Nunito',sans-serif;font-weight:900;font-size:21px;letter-spacing:1px}
+.menu-profile{font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;padding:8px 13px}
+.menu-hero{min-height:0;height:auto;padding:16px 16px 20px;background:#0b2c50}
+.menu-hero .kicker{font-family:'Nunito',sans-serif;font-size:11px;letter-spacing:2px}
+.menu-hero h1{font-family:'Nunito',sans-serif;font-weight:900;font-size:clamp(30px,5vw,48px);letter-spacing:1px;margin:5px 0}
+.menu-hero p{font-family:'Nunito',sans-serif;font-size:15px;letter-spacing:.5px;margin:0;color:#d5edff}
+.pseudo-box{top:12px;right:clamp(12px,4vw,48px);width:min(270px,30vw);padding:9px 11px}
+.pseudo-box label{font-family:'Nunito',sans-serif;font-size:10px;letter-spacing:.5px}
+.pseudo-row input{font-family:'Nunito',sans-serif;font-size:14px;padding:8px}
+.pseudo-row .main-btn{font-family:'Nunito',sans-serif;font-size:11px;padding:9px 11px}
+.menu-tabs{position:relative;z-index:2;margin:0;padding:clamp(26px,5vh,48px) clamp(16px,5vw,70px) 42px;background:linear-gradient(180deg,#d8efff,#b9e1f7);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;border:0;align-items:stretch}
+.menu-tabs .mode-card{min-height:210px;padding:24px;text-align:left;border-radius:22px;background:linear-gradient(145deg,#fff,#edf8ff);color:#153653;border:2px solid #a6d4ef;box-shadow:0 12px 26px #174d7125}
+.menu-tabs .mode-card h2{font-family:'Nunito',sans-serif;font-size:21px;font-weight:900;letter-spacing:0;color:#12395e;margin:15px 0 8px}
+.menu-tabs .mode-card p{font-family:'Nunito',sans-serif;color:#456b88;font-size:16px;line-height:1.45}
+.menu-tabs .mode-card .mode-icon{font-family:'Nunito',sans-serif;font-size:35px;color:#2878ad;text-shadow:none}
+.menu-tabs .mode-card .mode-tag{font-family:'Nunito',sans-serif;font-size:11px;letter-spacing:.5px;color:#2878ad;font-weight:900}
+.menu-tabs .mode-card.ranked{background:linear-gradient(145deg,#fff7d9,#fff);border-color:#e8d18b}
+.menu-tabs .mode-card.tournament-tab{background:linear-gradient(145deg,#e8e6ff,#fff);border-color:#b9b9ec}
+.menu-tabs .mode-card.chrono-tab{background:linear-gradient(145deg,#d9f7ee,#fff);border-color:#9edbc8}
+.menu-tabs .mode-card:hover{transform:translateY(-4px);box-shadow:0 16px 30px #174d7135}
+.menu-screen,.menu-screen button,.menu-screen input,.menu-screen p,.menu-screen h2,.menu-screen label{font-family:'Nunito',sans-serif}
+.menu-panel{font-family:'Nunito',sans-serif;background:#f8fcff;color:#153653;border-color:#a6d4ef}
+.menu-panel h2{font-family:'Nunito',sans-serif;font-weight:900;color:#17649a}
+.menu-panel p{color:#416987}
+.menu-actions button{font-family:'Nunito',sans-serif}
+.menu-note{color:#315b7b}
+.menu-floaters{inset:300px 0 0}
+.floater{color:#4d8ab5;opacity:.25}
+@media(max-width:760px){
+ .menu-hero{padding:18px 12px 22px}
+ .pseudo-box{position:relative;top:auto;right:auto;width:min(420px,92%);margin:12px auto 0}
+ .menu-tabs{grid-template-columns:1fr;padding:22px 16px 30px;gap:12px}
+ .menu-tabs .mode-card{min-height:145px;padding:18px}
+ .menu-tabs .mode-card h2{margin:8px 0 5px}
+ .menu-tabs .mode-card .mode-icon{font-size:29px}
+}
+
 </style>
 </head>
 <body>
@@ -231,17 +273,12 @@ body:before{opacity:.12;background-image:linear-gradient(#bdeaff18 1px,transpare
       <div id="pseudoMessage" style="color:#ff8cde;font-size:13px;text-align:left;margin-top:8px;min-height:16px"></div>
     </div>
   </header>
-  <nav class="menu-tabs">
-    <button id="tabPlay">ACCUEIL</button><button id="tabRank">CLASSEMENT</button><button id="tabHall">HALL OF FAME</button><button id="tabClubs">CLUBS</button><button id="tabFriends">AMIS</button><button id="tabProfile">PROFIL</button>
+  <nav class="menu-tabs" aria-label="Modes de jeu">
+    <button class="mode-card ranked" id="rankedBtn"><div class="mode-icon">🏆</div><h2>RANKED</h2><p>Grimpe les rangs et gagne de l'ELO face aux autres pilotes.</p><span class="mode-tag">MODE COMPÉTITIF</span></button>
+    <button class="mode-card tournament-tab" id="createTournamentBtn"><div class="mode-icon">🏅</div><h2>TOURNOIS</h2><p>Crée une compétition ou rejoins un tournoi avec un code.</p><span class="mode-tag">DÉFIS & COMPÉTITIONS</span></button>
+    <button class="mode-card chrono-tab" id="quickBtn"><div class="mode-icon">⏱</div><h2>CHRONOMÈTRE SOLO</h2><p>Choisis un circuit au hasard et bats ton meilleur temps.</p><span class="mode-tag">À TOI DE JOUER</span></button>
   </nav>
-  <div class="menu-grid" id="menuGrid">
-    <button class="mode-card ranked" id="rankedBtn"><div class="mode-icon">🏆</div><h2>JOUER EN CLASSÉ</h2><p>Grimpe les rangs et gagne de l'ELO face à tes rivaux.</p><span class="mode-tag">SAISON COMPÉTITIVE</span></button>
-    <button class="mode-card" id="quickBtn"><div class="mode-icon">🏎</div><h2>COURSE RAPIDE</h2><p>Pars sur un circuit choisi au hasard et bats l'IA.</p><span class="mode-tag">LANCEMENT RAPIDE</span></button>
-    <button class="mode-card friends" id="friendsBtn"><div class="mode-icon">👥</div><h2>JOUER AVEC DES AMIS</h2><p>Prépare un salon et retrouve tes amis.</p><span class="mode-tag">MULTIJOUEUR À VENIR</span></button>
-    <button class="mode-card" id="createTournamentBtn"><div class="mode-icon">🏅</div><h2>CRÉER UN TOURNOI</h2><p>Prépare une compétition et génère un code de tournoi.</p><span class="mode-tag">ESPACE TOURNOI</span></button>
-    <button class="mode-card" id="joinTournamentBtn"><div class="mode-icon">🎟</div><h2>REJOINDRE UN TOURNOI</h2><p>Entre un code pour rejoindre une compétition.</p><span class="mode-tag">AVEC UN CODE</span></button>
-    <button class="mode-card" id="profileBtn"><div class="mode-icon">📊</div><h2>MON PROFIL</h2><p>Retrouve ton rang, ton ELO et tes statistiques.</p><span class="mode-tag">ESPACE PILOTE</span></button>
-  </div>
+  <div class="menu-grid" id="menuGrid" hidden></div>
   <div class="menu-panel" id="rankPanel" hidden><h2>CLASSEMENT</h2><p>Classement local de démonstration. Le classement mondial arrivera avec le serveur en ligne.</p><div class="profile-grid"><div class="profile-stat"><small>TON ELO</small><strong id="rankElo">1000</strong></div><div class="profile-stat"><small>RANG</small><strong id="rankTier">BRONZE</strong></div><div class="profile-stat"><small>SAISON</small><strong>01</strong></div></div><div class="menu-actions"><button class="secondary-btn" id="closeRankBtn">RETOUR</button></div></div>
   <div class="menu-panel" id="hallPanel" hidden><h2>HALL OF FAME</h2><p>Les meilleurs pilotes seront affichés ici lorsque les classements en ligne seront disponibles.</p><div class="profile-grid"><div class="profile-stat"><small>1 · CHAMPION</small><strong>—</strong></div><div class="profile-stat"><small>2 · ÉLITE</small><strong>—</strong></div><div class="profile-stat"><small>3 · RIVAL</small><strong>—</strong></div></div><div class="menu-actions"><button class="secondary-btn" id="closeHallBtn">RETOUR</button></div></div>
   <div class="menu-panel" id="tournamentPanel" hidden><h2 id="tournamentTitle">TOURNOI RUSH RIVALS</h2><p id="tournamentDesc">Prépare un tournoi local. La participation en ligne arrivera avec le serveur.</p><div class="room-code" id="tournamentCode">RR-????</div><input class="friend-input" id="tournamentInput" maxlength="12" placeholder="Code du tournoi" hidden><div class="menu-actions"><button class="main-btn" id="tournamentActionBtn">GÉNÉRER UN CODE</button><button class="secondary-btn" id="closeTournamentBtn">RETOUR</button></div><p id="tournamentMessage"></p></div>
@@ -355,13 +392,13 @@ function refreshProfile(){
  $("rivalCount").textContent=stats.rivals||0;
 }
 function hidePanels(){["friendsPanel","profilePanel","clubsPanel","rankPanel","hallPanel","tournamentPanel"].forEach(id=>$(id).hidden=true);}
-$("tabPlay").addEventListener("click",()=>{hidePanels();$("menuGrid").style.display="grid";});
+
 function showPanel(id){hidePanels();$("menuGrid").style.display="none";$(id).hidden=false;refreshProfile();}
-$("tabProfile").addEventListener("click",()=>showPanel("profilePanel"));
-$("tabClubs").addEventListener("click",()=>showPanel("clubsPanel"));
-$("tabRank").addEventListener("click",()=>{showPanel("rankPanel");$("rankElo").textContent=stats.elo;$("rankTier").textContent=$("profileRankText").textContent.split(" ")[2].toUpperCase();});
-$("tabHall").addEventListener("click",()=>showPanel("hallPanel"));
-$("tabFriends").addEventListener("click",()=>{hidePanels();$("menuGrid").style.display="none";$("friendsPanel").hidden=false;});
+
+
+
+
+
 $("enterMenuBtn").addEventListener("click",()=>{$("introScreen").style.display="none";$("menuScreen").style.display="block";});
 $("closeRankBtn").addEventListener("click",()=>{$("rankPanel").hidden=true;$("menuGrid").style.display="grid";});
 $("closeHallBtn").addEventListener("click",()=>{$("hallPanel").hidden=true;$("menuGrid").style.display="grid";});
@@ -400,7 +437,7 @@ function enterGame(mode){
  reset();
 }
 document.getElementById("rankedBtn").addEventListener("click",()=>enterGame("CLASSÉ · ENTRAÎNEMENT LOCAL"));
-document.getElementById("quickBtn").addEventListener("click",()=>enterGame("COURSE RAPIDE"));
+document.getElementById("quickBtn").addEventListener("click",()=>enterGame("CHRONOMÈTRE SOLO"));
 document.getElementById("friendsBtn").addEventListener("click",()=>{
  if(!localStorage.getItem("rushRivalsPseudo") && !savePseudo()){pseudoInput.focus();return;}
  hidePanels();document.getElementById("menuGrid").style.display="none";document.getElementById("friendsPanel").hidden=false;
