@@ -1,0 +1,61 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rush Rivals</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #10152b;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+    header { padding: 35px 15px; }
+    h1 {
+      color: #39e6d0;
+      font-size: 42px;
+      margin: 0;
+    }
+    p { color: #c6cee8; }
+    .game {
+      max-width: 850px;
+      margin: 20px auto;
+      padding: 20px;
+    }
+    canvas {
+      display: block;
+      width: 100%;
+      background: #202b42;
+      border: 3px solid #39e6d0;
+      border-radius: 14px;
+    }
+    button {
+      background: #39e6d0;
+      color: #10152b;
+      border: 0;
+      border-radius: 9px;
+      padding: 13px 25px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>RUSH RIVALS</h1>
+    <p>La course commence bientôt.</p>
+  </header>
+
+  <main class="game">
+    <canvas id="track" width="800" height="450"></canvas>
+    <button onclick="alert('Rush Rivals arrive !')">
+      BIENTÔT DISPONIBLE
+    </button>
+  </main>
+</body>
+</html>
