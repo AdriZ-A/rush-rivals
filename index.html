@@ -661,7 +661,8 @@ function nearestTrack(x,y,page=currentPage){let best={dist:Infinity,t:0,x:0,y:0}
 function makePlayer(){const p=trackPoint(.02,0);return {x:p.x,y:p.y,angle:trackTangent(.02,0),speed:0,progress:.02,page:0,lap:0,done:false,color:colors[0]};}
 function makeRivals(){if(currentMode.includes("CHRONOMÈTRE SOLO"))return [];return [0,1,2].map(n=>({progress:.02+n*.006,page:0,speed:.025+n*.001,color:colors[n+1],lap:0,done:false}));}
 function reset(){
- running=false;finished=false;elapsed=0;lap=0;
+ running=false;finished=false;elapsed=0;lap=0;currentPage=0;
+ touchSteer=0;touchGas=false;touchBrake=false;
  player=makePlayer();rivals=makeRivals();particles=[];
  $("lap").textContent="0 / 3";$("speed").textContent="000";
  $("time").textContent="00:00";$("miniTime").textContent="00:00";$("position").textContent=currentMode.includes("CHRONOMÈTRE SOLO")?"1 / 1":"1 / 4";
@@ -675,6 +676,7 @@ const keys={};
 let touchSteer=0,touchGas=false,touchBrake=false;
 const stickBase=$("stickBase"),stickKnob=$("stickKnob");
 if(stickBase){
+ let activeStickPointer=null;
  const moveStick=e=>{
   const r=stickBase.getBoundingClientRect(),max=39;
   let dx=e.clientX-(r.left+r.width/2),dy=e.clientY-(r.top+r.height/2);
@@ -682,9 +684,9 @@ if(stickBase){
   dx*=scale;dy*=scale;touchSteer=dx/max;
   stickKnob.style.transform=`translate(calc(-50% + ${dx}px),calc(-50% + ${dy}px))`;
  };
- stickBase.addEventListener("pointerdown",e=>{e.preventDefault();stickBase.setPointerCapture(e.pointerId);moveStick(e);});
- stickBase.addEventListener("pointermove",e=>{if(e.buttons)moveStick(e);});
- const releaseStick=()=>{touchSteer=0;stickKnob.style.transform="translate(-50%,-50%)";};
+ stickBase.addEventListener("pointerdown",e=>{e.preventDefault();activeStickPointer=e.pointerId;stickBase.setPointerCapture(e.pointerId);moveStick(e);});
+ stickBase.addEventListener("pointermove",e=>{if(e.pointerId===activeStickPointer)moveStick(e);});
+ const releaseStick=e=>{if(e&&activeStickPointer!==null&&e.pointerId!==activeStickPointer)return;activeStickPointer=null;touchSteer=0;stickKnob.style.transform="translate(-50%,-50%)";};
  stickBase.addEventListener("pointerup",releaseStick);stickBase.addEventListener("pointercancel",releaseStick);stickBase.addEventListener("lostpointercapture",releaseStick);
 }
 function bindPedal(id,setter){const el=$(id);if(!el)return;const on=e=>{e.preventDefault();setter(true);};const off=()=>setter(false);el.addEventListener("pointerdown",on);el.addEventListener("pointerup",off);el.addEventListener("pointercancel",off);el.addEventListener("pointerleave",e=>{if(e.buttons===0)off();});}
@@ -694,6 +696,11 @@ window.addEventListener("keydown",e=>{
  keys[e.key.toLowerCase()]=true;
 });
 window.addEventListener("keyup",e=>keys[e.key.toLowerCase()]=false);
+window.addEventListener("blur",()=>{
+ Object.keys(keys).forEach(key=>keys[key]=false);
+ touchSteer=0;touchGas=false;touchBrake=false;
+ if(stickKnob)stickKnob.style.transform="translate(-50%,-50%)";
+});
 
 function drawBackground(){
  ctx.fillStyle="#080e19";ctx.fillRect(0,0,W,H);
