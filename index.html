@@ -909,27 +909,31 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.m
  }
  function addRoad(){
   const pts=[
-   new THREE.Vector3(0,0,82),new THREE.Vector3(66,0,66),new THREE.Vector3(96,0,12),
-   new THREE.Vector3(78,0,-56),new THREE.Vector3(15,0,-84),new THREE.Vector3(-58,0,-68),
-   new THREE.Vector3(-94,0,-8),new THREE.Vector3(-72,0,58)
+   new THREE.Vector3(0,2,92),new THREE.Vector3(34,5,88),new THREE.Vector3(68,11,66),
+   new THREE.Vector3(82,16,34),new THREE.Vector3(72,12,8),new THREE.Vector3(48,5,-8),
+   new THREE.Vector3(62,1,-38),new THREE.Vector3(38,4,-72),new THREE.Vector3(4,10,-84),
+   new THREE.Vector3(-30,15,-72),new THREE.Vector3(-62,10,-48),new THREE.Vector3(-82,4,-12),
+   new THREE.Vector3(-70,1,24),new THREE.Vector3(-42,4,62),new THREE.Vector3(-18,8,82)
   ];
   curve=new THREE.CatmullRomCurve3(pts,true,"catmullrom",.18);
-  trackSamples=[];for(let i=0;i<240;i++){const p=curve.getPointAt(i/240),t=curve.getTangentAt(i/240).normalize();trackSamples.push({x:p.x,z:p.z,nx:-t.z,nz:t.x});}
-  const samples=180,verts=[],uv=[],indices=[];
+  trackSamples=[];for(let i=0;i<480;i++){const p=curve.getPointAt(i/480),t=curve.getTangentAt(i/480).normalize();trackSamples.push({x:p.x,y:p.y,z:p.z,nx:-t.z,nz:t.x,tx:t.x,ty:t.y,tz:t.z});}
+  const samples=360,verts=[],uv=[],indices=[];
   for(let i=0;i<=samples;i++){
    const t=i/samples,p=curve.getPointAt(t),tan=curve.getTangentAt(t).normalize(),side=new THREE.Vector3(-tan.z,0,tan.x);
-   for(const edge of [-10,10]){verts.push(p.x+side.x*edge,.12,p.z+side.z*edge);uv.push(i/samples,(edge+10)/20);}
+   for(const edge of [-10,10]){verts.push(p.x+side.x*edge,p.y+.12,p.z+side.z*edge);uv.push(i/samples,(edge+10)/20);}
    if(i<samples){const a=i*2;indices.push(a,a+1,a+2,a+1,a+3,a+2);}
   }
   const geo=new THREE.BufferGeometry();geo.setAttribute("position",new THREE.Float32BufferAttribute(verts,3));geo.setAttribute("uv",new THREE.Float32BufferAttribute(uv,2));geo.setIndex(indices);geo.computeVertexNormals();
   const road=new THREE.Mesh(geo,new THREE.MeshStandardMaterial({color:0x18263c,roughness:.88,side:THREE.DoubleSide}));road.receiveShadow=true;scene.add(road);
   const edgeMat=new THREE.MeshStandardMaterial({color:0x20eaff,emissive:0x087b9d,emissiveIntensity:1.8});
   for(const side of [-1,1]){
-   const railPts=[];for(let i=0;i<=samples;i++){const t=i/samples,p=curve.getPointAt(t),tan=curve.getTangentAt(t).normalize(),n=new THREE.Vector3(-tan.z,0,tan.x);railPts.push(new THREE.Vector3(p.x+n.x*side*10.5,.42,p.z+n.z*side*10.5));}
+   const railPts=[];for(let i=0;i<=samples;i++){const t=i/samples,p=curve.getPointAt(t),tan=curve.getTangentAt(t).normalize(),n=new THREE.Vector3(-tan.z,0,tan.x);railPts.push(new THREE.Vector3(p.x+n.x*side*10.5,p.y+.42,p.z+n.z*side*10.5));}
    const rail=new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(railPts),samples,.48,5,true),edgeMat);scene.add(rail);
   }
   const dashMat=new THREE.MeshBasicMaterial({color:0xd7faff});
-  for(let i=0;i<100;i++){const p=curve.getPointAt(i/100),d=curve.getTangentAt(i/100);const dash=new THREE.Mesh(new THREE.BoxGeometry(.22,.035,2.3),dashMat);dash.position.set(p.x,.17,p.z);dash.rotation.y=Math.atan2(d.x,d.z);scene.add(dash);}
+  for(let i=0;i<120;i++){const p=curve.getPointAt(i/120),d=curve.getTangentAt(i/120);const dash=new THREE.Mesh(new THREE.BoxGeometry(.22,.035,2.3),dashMat);dash.position.set(p.x,p.y+.17,p.z);dash.rotation.y=Math.atan2(d.x,d.z);scene.add(dash);}
+  const gateMat=new THREE.MeshStandardMaterial({color:0x17dfff,emissive:0x087b9d,emissiveIntensity:1.4});
+  for(const t of [.24,.68]){const p=curve.getPointAt(t),d=curve.getTangentAt(t),yaw=Math.atan2(d.x,d.z);for(const side of [-1,1]){const post=new THREE.Mesh(new THREE.BoxGeometry(.65,6,.65),gateMat);post.position.set(p.x+Math.cos(yaw)*side*9,p.y+3,p.z-Math.sin(yaw)*side*9);scene.add(post);}const beam=new THREE.Mesh(new THREE.BoxGeometry(19,.65,.65),gateMat);beam.position.set(p.x,p.y+6,p.z);beam.rotation.y=yaw;scene.add(beam);}
  }
  function init(){
   renderer=new THREE.WebGLRenderer({canvas,antialias:false,alpha:false,powerPreference:"high-performance"});renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.1));renderer.shadowMap.enabled=false;
@@ -944,7 +948,7 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.m
   for(let i=0;i<24;i++){const t=i/24,p=curve.getPointAt(t),tan=curve.getTangentAt(t),side=new THREE.Vector3(-tan.z,0,tan.x),sgn=i%2?1:-1;const x=p.x+side.x*sgn*(19+(i%3)*5),z=p.z+side.z*sgn*(19+(i%3)*5),h=4+(i*7%17);const b=new THREE.Mesh(new THREE.BoxGeometry(3+(i%3),h,3+(i%4)),towerMat);b.position.set(x,h/2-.1,z);scene.add(b);}
   player=makeCar(0x00dfff);scene.add(player);
   const rivalColors=[0xff38c7,0xffd84d,0x9b65ff];rivalColors.forEach((c,i)=>{const car=makeCar(c);scene.add(car);rivals.push({car,t:(.08+i*.25)%1,speed:.018+i*.002});});
-  const p=curve.getPointAt(.02),tan=curve.getTangentAt(.02);player.position.set(p.x,.02,p.z);heading=Math.atan2(tan.x,tan.z);player.rotation.y=heading;
+  const p=curve.getPointAt(.02),tan=curve.getTangentAt(.02);player.position.set(p.x,p.y+.02,p.z);heading=Math.atan2(tan.x,tan.z);player.rotation.y=heading;
   resize();window.addEventListener("resize",resize);
  }
  function resize(){if(!renderer)return;const w=canvas.clientWidth||1000,h=canvas.clientHeight||650;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();}
@@ -953,14 +957,14 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.m
   raf=requestAnimationFrame(frame);if(t-last<25)return;const dt=Math.min((t-last)/1000||0,.04);last=t;
   if(racing){
    const forward=keys.ArrowUp||keys.KeyW||keys.KeyZ||gas,back=keys.ArrowDown||keys.KeyS||brake,left=keys.ArrowLeft||keys.KeyA||keys.KeyQ,right=keys.ArrowRight||keys.KeyD;
-   if(forward)speed+=30*dt;else speed-=7*dt;if(back)speed-=42*dt;speed=clamp(speed,0,48);
-   const turn=clamp((right?1:0)-(left?1:0)+touchSteer3d,-1,1);steer+=(turn-steer)*Math.min(1,dt*8);heading-=steer*(.35+speed/48*1.35)*dt;
+   if(forward)speed=Math.min(48,speed+30*dt);else if(back)speed=speed>0?Math.max(0,speed-55*dt):Math.max(-18,speed-18*dt);else speed=speed>0?Math.max(0,speed-7*dt):Math.min(0,speed+7*dt);
+   const turn=clamp((right?1:0)-(left?1:0)+touchSteer3d,-1,1);steer+=(turn-steer)*Math.min(1,dt*8);heading-=steer*(.35+Math.abs(speed)/48*1.35)*dt;
    player.position.x+=Math.sin(heading)*speed*dt;player.position.z+=Math.cos(heading)*speed*dt;player.rotation.y=heading;
    let nearest=null,best=Infinity;
    for(const sample of trackSamples){const dx=player.position.x-sample.x,dz=player.position.z-sample.z,d=dx*dx+dz*dz;if(d<best){best=d;nearest=sample;}}
-   if(nearest){const dx=player.position.x-nearest.x,dz=player.position.z-nearest.z,lateral=dx*nearest.nx+dz*nearest.nz,limited=clamp(lateral,-8.15,8.15);if(Math.abs(lateral)>8.15){player.position.x=nearest.x+nearest.nx*limited;player.position.z=nearest.z+nearest.nz*limited;speed*=.48;}}
+   if(nearest){const dx=player.position.x-nearest.x,dz=player.position.z-nearest.z,lateral=dx*nearest.nx+dz*nearest.nz,limited=clamp(lateral,-8.15,8.15);if(Math.abs(lateral)>8.15){player.position.x=nearest.x+nearest.nx*limited;player.position.z=nearest.z+nearest.nz*limited;speed*=.48;}player.position.y=nearest.y+.02;player.rotation.x=-Math.atan2(nearest.ty,Math.hypot(nearest.tx,nearest.tz));}
 
-   rivals.forEach(r=>{r.t=(r.t+r.speed*dt)%1;const p=curve.getPointAt(r.t),v=curve.getTangentAt(r.t);r.car.position.set(p.x,.02,p.z);r.car.rotation.y=Math.atan2(v.x,v.z);});
+   rivals.forEach(r=>{r.t=(r.t+r.speed*dt)%1;const p=curve.getPointAt(r.t),v=curve.getTangentAt(r.t);r.car.position.set(p.x,p.y+.02,p.z);r.car.rotation.y=Math.atan2(v.x,v.z);r.car.rotation.x=-Math.atan2(v.y,Math.hypot(v.x,v.z));});
    const hud=document.getElementById("speed");if(hud)hud.textContent=String(Math.round(speed*4)).padStart(3,"0");
   }
   const behind=new THREE.Vector3(-Math.sin(heading)*11,6.2,-Math.cos(heading)*11),target=player.position.clone().add(new THREE.Vector3(0,1,0));
