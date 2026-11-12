@@ -512,6 +512,20 @@ pseudoInput.value=storedPseudo;
 document.getElementById("profileName").textContent=storedPseudo||"INVITÉ";
 if(storedPseudo){document.querySelector(".pseudo-box").hidden=true;$("accountTabs").hidden=false;}
 function saveStats(){localStorage.setItem("rushRivalsStats",JSON.stringify(stats));}
+
+function addPanelExtras(){
+ const extras={
+ rankPanel:'<section class="panel-extra"><h3>COMMENT FONCTIONNE LE CLASSEMENT ?</h3><p>Ton ELO évolue selon tes résultats contre les pilotes contrôlés par l’ordinateur. Ce classement est enregistré uniquement sur cet appareil : ce n’est pas encore un classement mondial.</p><div class="panel-extra-grid"><div class="panel-extra-item">🏁 Objectif : atteindre 1 200 ELO</div><div class="panel-extra-item">🥇 Suivi de tes victoires</div><div class="panel-extra-item">📅 Saison 01 · Prototype</div></div></section>',
+ profilePanel:'<section class="panel-extra"><h3>TON PARCOURS</h3><div class="panel-extra-grid"><div class="panel-extra-item">🎯 Objectif : jouer 10 courses</div><div class="panel-extra-item">🏆 Défi : décrocher 3 victoires</div><div class="panel-extra-item">⚡ Record personnel : améliore ton meilleur temps</div><div class="panel-extra-item">🔒 Statistiques enregistrées sur cet appareil</div></div></section>',
+ clubsPanel:'<section class="panel-extra"><h3>FONCTIONNALITÉS PRÉVUES</h3><div class="panel-extra-grid"><div class="panel-extra-item">🛡️ Créer un club et choisir son emblème</div><div class="panel-extra-item">👥 Recruter des membres</div><div class="panel-extra-item">🏆 Championnat interclubs</div><div class="panel-extra-item">⚔️ Rivalités et revanche</div></div><p>Ces fonctions nécessiteront un serveur en ligne. Elles ne sont pas encore actives.</p></section>',
+ friendsPanel:'<section class="panel-extra"><h3>LE SALON ENTRE AMIS</h3><div class="panel-extra-grid"><div class="panel-extra-item">🔗 Code de salon de démonstration</div><div class="panel-extra-item">🏎️ Courses privées prévues</div><div class="panel-extra-item">🤝 Invitations et liste d’amis prévues</div></div><p>Le code généré ne permet pas encore à un autre joueur de rejoindre la partie.</p></section>',
+ hallPanel:'<section class="panel-extra"><h3>BADGES À DÉBLOQUER</h3><div class="panel-extra-grid"><div class="panel-extra-item">🏁 Premier départ · bientôt</div><div class="panel-extra-item">🥇 Première victoire · bientôt</div><div class="panel-extra-item">🔥 5 courses terminées · bientôt</div><div class="panel-extra-item">💎 Pilote Diamant · bientôt</div></div><p>Les trophées seront activés avec le système de progression.</p></section>',
+ tournamentPanel:'<section class="panel-extra"><h3>FORMATS DE TOURNOI ENVISAGÉS</h3><div class="panel-extra-grid"><div class="panel-extra-item">🏆 Élimination directe</div><div class="panel-extra-item">📊 Championnat à points</div><div class="panel-extra-item">⚡ Contre-la-montre</div></div><p>La création et les codes sont une démonstration locale, sans inscription en ligne.</p></section>'
+ };
+ Object.entries(extras).forEach(([id,html])=>{const panel=$(id);if(panel&&!panel.querySelector(".panel-extra"))panel.insertAdjacentHTML("beforeend",html);});
+}
+addPanelExtras();
+
 function refreshProfile(){
  stats=readStats();const pseudo=localStorage.getItem("rushRivalsPseudo")||"Pilote";
  $("profilePseudoLine").textContent="PILOTE : "+pseudo;
@@ -519,6 +533,8 @@ function refreshProfile(){
  $("statWinRate").textContent=(stats.races?Math.round(stats.wins/stats.races*100):0)+"%";$("statBest").textContent=stats.best||"--:--";
  const tier=stats.elo<1100?"Bronze":stats.elo<1300?"Argent":stats.elo<1500?"Or":stats.elo<1800?"Platine":stats.elo<2100?"Diamant":"Champion";
  $("profileRankText").textContent="Rang estimé : "+tier+" · ELO "+stats.elo+". Les résultats classés sont sauvegardés sur cet appareil.";
+ if($("rankElo"))$("rankElo").textContent=stats.elo;
+ if($("rankTier"))$("rankTier").textContent=tier.toUpperCase();
  $("rivalCount").textContent=stats.rivals||0;
 }
 function hidePanels(){["friendsPanel","profilePanel","clubsPanel","rankPanel","hallPanel","tournamentPanel"].forEach(id=>$(id).hidden=true);$("menuScreen").classList.remove("panel-open");}
@@ -531,12 +547,12 @@ document.querySelectorAll("#accountTabs button").forEach(btn=>btn.addEventListen
 
 
 $("enterMenuBtn").addEventListener("click",()=>{$("introScreen").style.display="none";$("menuScreen").style.display="block";});
-$("closeRankBtn").addEventListener("click",()=>{$("rankPanel").hidden=true;$("menuGrid").style.display="grid";});
-$("closeHallBtn").addEventListener("click",()=>{$("hallPanel").hidden=true;$("menuGrid").style.display="grid";});
+$("closeRankBtn").addEventListener("click",()=>{hidePanels();$("menuGrid").style.display="grid";});
+$("closeHallBtn").addEventListener("click",()=>{hidePanels();$("menuGrid").style.display="grid";});
 function openTournament(create){hidePanels();$("menuGrid").style.display="none";$("tournamentPanel").hidden=false;$("menuScreen").classList.add("panel-open");$("tournamentTitle").textContent=create?"CRÉER UN TOURNOI":"REJOINDRE UN TOURNOI";$("tournamentInput").hidden=create;$("tournamentCode").textContent=create?"RR-????":"ENTRE TON CODE";$("tournamentActionBtn").textContent=create?"GÉNÉRER UN CODE":"VALIDER LE CODE";$("tournamentActionBtn").dataset.mode=create?"create":"join";}
 $("createTournamentBtn").addEventListener("click",()=>openTournament(true));
 
-$("closeTournamentBtn").addEventListener("click",()=>{$("tournamentPanel").hidden=true;$("menuGrid").style.display="grid";});
+$("closeTournamentBtn").addEventListener("click",()=>{hidePanels();$("menuGrid").style.display="grid";});
 $("tournamentJoinChoiceBtn").addEventListener("click",()=>{openTournament(false);});
 $("tournamentActionBtn").addEventListener("click",()=>{if($("tournamentActionBtn").dataset.mode==="create"){$("tournamentCode").textContent="RR-"+Math.random().toString(36).slice(2,7).toUpperCase();$("tournamentMessage").textContent="Code créé localement. Le tournoi n'est pas encore joignable en ligne.";}else{const code=$("tournamentInput").value.trim().toUpperCase();$("tournamentMessage").textContent=code.length>=4?"Code noté : "+code+". La connexion en ligne sera ajoutée plus tard.":"Entre un code valide.";}});
 
