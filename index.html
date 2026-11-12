@@ -885,7 +885,7 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.m
  const canvas=document.getElementById("game3d");
  const toggle=document.getElementById("viewToggle");
  if(!canvas||!toggle)return;
- let renderer,scene,camera,player,curve,active=false,racing=false,raf=0,last=0,speed=0,heading=0,steer=0,gas=false,brake=false,progress=0;
+ let renderer,scene,camera,player,curve,active=false,racing=false,raf=0,last=0,speed=0,heading=0,steer=0,touchSteer3d=0,gas=false,brake=false,progress=0;
  const keys={};
  const rivals=[];
  const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
@@ -952,7 +952,7 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.m
   if(racing){
    const forward=keys.ArrowUp||keys.KeyW||keys.KeyZ||gas,back=keys.ArrowDown||keys.KeyS||brake,left=keys.ArrowLeft||keys.KeyA||keys.KeyQ,right=keys.ArrowRight||keys.KeyD;
    if(forward)speed+=30*dt;else speed-=7*dt;if(back)speed-=42*dt;speed=clamp(speed,0,48);
-   const turn=(right?1:0)-(left?1:0);steer+=(turn-steer)*Math.min(1,dt*8);heading+=steer*(.35+speed/48*1.35)*dt;
+   const turn=clamp((right?1:0)-(left?1:0)+touchSteer3d,-1,1);steer+=(turn-steer)*Math.min(1,dt*8);heading+=steer*(.35+speed/48*1.35)*dt;
    player.position.x+=Math.sin(heading)*speed*dt;player.position.z+=Math.cos(heading)*speed*dt;player.rotation.y=heading;
    const nearest=curve.getUtoTmapping(0,0);let distance=999;
    for(let i=0;i<180;i++){const p=curve.getPointAt(i/180),d=player.position.distanceTo(new THREE.Vector3(p.x,player.position.y,p.z));if(d<distance)distance=d;}
@@ -968,7 +968,7 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.m
  toggle.addEventListener("click",()=>setActive(!active));
  window.addEventListener("keydown",e=>{keys[e.code]=true;if(active&&["ArrowUp","ArrowDown","ArrowLeft","ArrowRight","Space"].includes(e.code))e.preventDefault();});
  window.addEventListener("keyup",e=>{keys[e.code]=false;});
- const stick=document.getElementById("stickBase");if(stick){stick.addEventListener("pointermove",e=>{if(!active)return;const r=stick.getBoundingClientRect();steer=clamp((e.clientX-r.left-r.width/2)/39,-1,1);},{passive:true});stick.addEventListener("pointerup",()=>{steer=0;});stick.addEventListener("pointercancel",()=>{steer=0;});}
+ const stick=document.getElementById("stickBase");if(stick){stick.addEventListener("pointermove",e=>{if(!active)return;const r=stick.getBoundingClientRect();touchSteer3d=clamp((e.clientX-r.left-r.width/2)/39,-1,1);},{passive:true});stick.addEventListener("pointerup",()=>{touchSteer3d=0;});stick.addEventListener("pointercancel",()=>{touchSteer3d=0;});}
  const gasBtn=document.getElementById("gasTouch"),brakeBtn=document.getElementById("brakeTouch");
  if(gasBtn){gasBtn.addEventListener("pointerdown",()=>gas=true);["pointerup","pointercancel","pointerleave"].forEach(e=>gasBtn.addEventListener(e,()=>gas=false));}
  if(brakeBtn){brakeBtn.addEventListener("pointerdown",()=>brake=true);["pointerup","pointercancel","pointerleave"].forEach(e=>brakeBtn.addEventListener(e,()=>brake=false));}
