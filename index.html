@@ -598,7 +598,7 @@ function enterGame(mode){
  if(!localStorage.getItem("rushRivalsPseudo") && !savePseudo()) {pseudoInput.focus();return;}
  currentMode=mode;
  chooseCircuit();
- document.getElementById("gameModeLabel").textContent=mode;
+ const modeLabel=document.getElementById("gameModeLabel");if(modeLabel)modeLabel.textContent=mode;
  document.getElementById("loadingCircuitName").textContent=currentCircuit.name;
  document.getElementById("loadingCircuitType").textContent=currentCircuit.type;
  document.getElementById("menuScreen").style.display="none";
