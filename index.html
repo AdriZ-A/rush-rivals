@@ -655,12 +655,12 @@ function nearestTrack(x,y){
  return best;
 }
 function makePlayer(){const p=trackPoint(0);return {x:p.x,y:p.y,angle:trackTangent(0),speed:0,progress:0,prevProgress:0,lap:0,done:false,color:colors[0]};}
-function makeRivals(){return [0,1,2].map(n=>({progress:(n+1)*-.006,speed:.034+n*.002,color:colors[n+1],lap:0,done:false}));}
+function makeRivals(){if(currentMode.includes("CHRONOMÈTRE SOLO"))return [];return [0,1,2].map(n=>({progress:(n+1)*-.006,speed:.034+n*.002,color:colors[n+1],lap:0,done:false}));}
 function reset(){
  running=false;finished=false;elapsed=0;lap=0;
  player=makePlayer();rivals=makeRivals();particles=[];
  $("lap").textContent="0 / 3";$("speed").textContent="000";
- $("time").textContent="00:00";$("miniTime").textContent="00:00";$("position").textContent="1 / 4";
+ $("time").textContent="00:00";$("miniTime").textContent="00:00";$("position").textContent=currentMode.includes("CHRONOMÈTRE SOLO")?"1 / 1":"1 / 4";
  $("overlayTitle").textContent="LA COURSE T'ATTEND.";
  $("overlayText").textContent="Affronte les rivaux, maîtrise les virages et franchis la ligne d'arrivée en premier !";
  $("startBtn").textContent="DÉMARRER LA COURSE";
@@ -768,7 +768,7 @@ function update(dt){
  if(Math.random()<.25&&player.speed>3)particles.push({x:player.x-Math.cos(player.angle)*15,y:player.y-Math.sin(player.angle)*15,vx:-Math.cos(player.angle)*1.5,vy:-Math.sin(player.angle)*1.5,life:.8,size:2+Math.random()*3,color:"#00f5ff"});
  const playerScore=player.lap+player.progress;
  const position=1+rivals.filter(r=>r.lap+r.progress>playerScore).length;
- $("position").textContent=position+" / 4";$("speed").textContent=String(Math.round(Math.abs(player.speed)*24)).padStart(3,"0");
+ $("position").textContent=position+" / "+(rivals.length?4:1);$("speed").textContent=String(Math.round(Math.abs(player.speed)*24)).padStart(3,"0");
  $("time").textContent=fmt(elapsed);
 }
 function fmt(t){
