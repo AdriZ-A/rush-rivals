@@ -707,9 +707,16 @@ function drawTrack(){
  path();ctx.strokeStyle="#252f40";ctx.lineWidth=trackWidth;ctx.stroke();
  path();ctx.strokeStyle="#8797ad";ctx.lineWidth=5;ctx.stroke();
  path();ctx.setLineDash([18,18]);ctx.strokeStyle="#d8e9f5";ctx.globalAlpha=.48;ctx.lineWidth=3;ctx.stroke();ctx.setLineDash([]);ctx.globalAlpha=1;
- // Murs continus, épais et lumineux de chaque côté de la chaussée
- path();ctx.strokeStyle="#e4f6ff";ctx.lineWidth=9;ctx.stroke();
- path();ctx.strokeStyle=currentCircuit.accent;ctx.globalAlpha=.9;ctx.lineWidth=4;ctx.stroke();ctx.globalAlpha=1;
+ // Deux murs distincts, placés sur les bords intérieur et extérieur de la piste
+ for(const side of [-1,1]){
+  ctx.beginPath();
+  for(let i=0;i<=320;i++){
+   const t=i/320,p=trackPoint(t),a=trackTangent(t),x=p.x-Math.sin(a)*trackWidth/2*side,y=p.y+Math.cos(a)*trackWidth/2*side;
+   if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
+  }
+  ctx.closePath();ctx.lineJoin="round";ctx.strokeStyle="#d9f4ff";ctx.lineWidth=12;ctx.stroke();
+  ctx.strokeStyle=currentCircuit.accent;ctx.lineWidth=4;ctx.stroke();
+ }
  const start=trackPoint(0),ang=trackTangent(0);ctx.save();ctx.translate(start.x,start.y);ctx.rotate(ang);
  for(let i=0;i<10;i++){ctx.fillStyle=i%2?"#101525":"#f5f7ff";ctx.fillRect(-5,-trackWidth/2+i*trackWidth/10,10,trackWidth/10);}
  ctx.restore();
