@@ -351,6 +351,23 @@ body:before{opacity:.12;background-image:linear-gradient(#bdeaff18 1px,transpare
 .panel-extra{margin-top:22px;padding:18px;border-radius:17px;background:#e9f6ff;border:1px solid #b7dcef}.panel-extra h3{font:900 15px Nunito,sans-serif;color:#155d8b}.panel-extra-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.panel-extra-item{padding:13px;border-radius:12px;background:#fff;border:1px solid #c6e4f4;color:#315c79;font:700 13px Nunito,sans-serif}
 .loading-screen{position:fixed!important;inset:0!important;z-index:100!important}.loading-bar span{animation:loadbar 10s linear forwards!important}@keyframes loadbar{from{width:0}to{width:100%}}
 @media(max-width:600px){.menu-screen.panel-open .menu-panel:not([hidden]){inset:0!important;max-height:100dvh;border-radius:0!important;padding:22px 16px calc(24px + env(safe-area-inset-bottom))!important}.menu-screen.panel-open .profile-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+.race-clock{display:flex;align-items:center;gap:6px;padding:5px 10px;border-radius:10px;background:#071b35d9;border:1px solid #73d8ff88;color:#dff8ff;font:800 13px Nunito,sans-serif;font-variant-numeric:tabular-nums}
+#gameScreen .status,#gameScreen .bottom,#gameScreen .controls{display:none!important}
+#gameScreen .topbar{z-index:15;position:absolute;top:0;left:0;right:0;min-height:44px;padding:5px 10px;background:linear-gradient(180deg,#06152bdc,transparent);pointer-events:none}
+#gameScreen .topbar .brand,#gameScreen .topbar button,#gameScreen .race-clock{pointer-events:auto}
+#gameScreen .game-menu-btn{font-size:9px;padding:7px 10px;white-space:nowrap}
+#gameScreen .hud{top:48px}
+#gameScreen .mobile-controls{display:block!important;position:absolute;z-index:25;inset:auto 0 max(12px,env(safe-area-inset-bottom)) 0;height:145px;pointer-events:none;touch-action:none}
+#gameScreen .joystick-area{display:flex!important;position:absolute;left:16px;bottom:0;flex-direction:column;align-items:center;gap:3px;pointer-events:none}
+#gameScreen .joystick-base{display:block!important;width:116px;height:116px;pointer-events:auto;touch-action:none;user-select:none;-webkit-user-select:none}
+#gameScreen .joystick-knob{display:block!important;width:48px;height:48px;pointer-events:none}
+#gameScreen .pedals{display:flex!important;position:absolute;right:14px;bottom:0;align-items:flex-end;gap:9px;pointer-events:none}
+#gameScreen .pedal{display:flex!important;align-items:center;justify-content:center;pointer-events:auto;touch-action:none;user-select:none;-webkit-user-select:none}
+@media(min-width:701px) and (pointer:fine){#gameScreen .mobile-controls{display:none!important}}
+@media(max-width:700px){#gameScreen .topbar .brand{display:none}#gameScreen .topbar{justify-content:flex-end}#gameScreen .hud{top:46px}#gameScreen .stat{padding:5px 7px}}
+@media(max-height:520px){#gameScreen .mobile-controls{height:105px}#gameScreen .joystick-base{width:88px;height:88px}#gameScreen .joystick-knob{width:38px;height:38px}#gameScreen .pedal{width:57px;height:60px}}
+
 </style>
 </head>
 <body>
@@ -424,7 +441,7 @@ body:before{opacity:.12;background-image:linear-gradient(#bdeaff18 1px,transpare
 \n<div class="page" id="gameScreen">
   <div class="topbar">
     <div class="brand">RUSH <span>RIVALS</span></div>
-    <div style="display:flex;gap:10px;align-items:center"><div class="status" id="gameModeLabel">COURSE RAPIDE</div><button class="game-menu-btn" id="backToMenuBtn">MENU PRINCIPAL</button></div>
+    <div style="display:flex;gap:10px;align-items:center"><div class="race-clock"><span>CHRONO</span><strong id="miniTime">00:00</strong></div><button class="game-menu-btn" id="backToMenuBtn">MENU PRINCIPAL</button></div>
   </div>
 
   <header class="hero">
@@ -624,7 +641,7 @@ function reset(){
  running=false;finished=false;elapsed=0;lap=0;
  player=makePlayer();rivals=makeRivals();particles=[];
  $("lap").textContent="0 / 3";$("speed").textContent="000";
- $("time").textContent="00:00";$("position").textContent="1 / 4";
+ $("time").textContent="00:00";$("miniTime").textContent="00:00";$("position").textContent="1 / 4";
  $("overlayTitle").textContent="LA COURSE T'ATTEND.";
  $("overlayText").textContent="Affronte les rivaux, maîtrise les virages et franchis la ligne d'arrivée en premier !";
  $("startBtn").textContent="DÉMARRER LA COURSE";
