@@ -763,7 +763,7 @@ function endRace(){
  const resultTime=fmt(elapsed);if(!stats.best||resultTime<stats.best)stats.best=resultTime;
  saveStats();
  $("overlayTitle").textContent=pos===1?"VICTOIRE !":"COURSE TERMINÉE";
- $("overlayText").textContent="Circuit : "+currentCircuit.name+" · Temps : "+fmt(elapsed)+" · Position : "+pos+" sur 4. "+(currentMode.includes("CLASSÉ")?"ELO actuel : "+stats.elo+". ":"")+(pos===1?"Tu as dominé le circuit !":"La prochaine course sera la bonne !");
+ const totalPilots=rivals.length+1;$("overlayText").textContent="Circuit : "+currentCircuit.name+" · Temps : "+fmt(elapsed)+" · Position : "+pos+" sur "+totalPilots+". "+(currentMode.includes("CLASSÉ")?"ELO actuel : "+stats.elo+". ":"")+(pos===1?"Tu as dominé le circuit !":"La prochaine course sera la bonne !");
  $("startBtn").textContent="REJOUER";
  $("overlay").classList.remove("hidden");
 }
