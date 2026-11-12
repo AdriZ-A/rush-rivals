@@ -340,6 +340,17 @@ body:before{opacity:.12;background-image:linear-gradient(#bdeaff18 1px,transpare
  #gameScreen .hud{top:40px;width:62vw}
 }
 
+.menu-screen.panel-open::after{content:'';position:fixed;inset:0;background:rgba(2,12,29,.84);backdrop-filter:blur(9px);z-index:40;pointer-events:none}
+.menu-screen.panel-open .menu-panel:not([hidden]){position:fixed!important;inset:clamp(10px,3vh,30px) clamp(10px,4vw,60px)!important;z-index:41!important;width:auto!important;max-width:none!important;max-height:94dvh;overflow-y:auto;margin:0!important;padding:clamp(20px,4vw,42px)!important;border-radius:24px!important;background:linear-gradient(150deg,#f7fcff,#dcefff 55%,#c7e7fb)!important;box-shadow:0 25px 90px #00152dcc!important;color:#12395e}
+.menu-screen.panel-open .menu-panel h2{font-family:Nunito,sans-serif;font-size:clamp(22px,4vw,34px);font-weight:900;color:#105b91}
+.menu-screen.panel-open .menu-panel p{font-family:Nunito,sans-serif;color:#355d7b;font-size:clamp(14px,2vw,17px);line-height:1.6}
+.menu-screen.panel-open .profile-grid{grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:12px}
+.menu-screen.panel-open .profile-stat{border-radius:16px;padding:18px 12px;background:#fff;border:1px solid #b6dcef;box-shadow:0 6px 18px #1c5a8020}
+.menu-screen.panel-open .profile-stat strong{font-family:Nunito,sans-serif;font-size:clamp(22px,4vw,30px);color:#126da6}
+.menu-screen.panel-open .menu-actions{justify-content:flex-start;margin-top:25px}.menu-screen.panel-open .menu-actions button{font-family:Nunito,sans-serif;font-size:12px;border-radius:12px;min-height:44px}
+.panel-extra{margin-top:22px;padding:18px;border-radius:17px;background:#e9f6ff;border:1px solid #b7dcef}.panel-extra h3{font:900 15px Nunito,sans-serif;color:#155d8b}.panel-extra-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.panel-extra-item{padding:13px;border-radius:12px;background:#fff;border:1px solid #c6e4f4;color:#315c79;font:700 13px Nunito,sans-serif}
+.loading-screen{position:fixed!important;inset:0!important;z-index:100!important}.loading-bar span{animation:loadbar 10s linear forwards!important}@keyframes loadbar{from{width:0}to{width:100%}}
+@media(max-width:600px){.menu-screen.panel-open .menu-panel:not([hidden]){inset:0!important;max-height:100dvh;border-radius:0!important;padding:22px 16px calc(24px + env(safe-area-inset-bottom))!important}.menu-screen.panel-open .profile-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style>
 </head>
 <body>
@@ -510,9 +521,9 @@ function refreshProfile(){
  $("profileRankText").textContent="Rang estimé : "+tier+" · ELO "+stats.elo+". Les résultats classés sont sauvegardés sur cet appareil.";
  $("rivalCount").textContent=stats.rivals||0;
 }
-function hidePanels(){["friendsPanel","profilePanel","clubsPanel","rankPanel","hallPanel","tournamentPanel"].forEach(id=>$(id).hidden=true);}
+function hidePanels(){["friendsPanel","profilePanel","clubsPanel","rankPanel","hallPanel","tournamentPanel"].forEach(id=>$(id).hidden=true);$("menuScreen").classList.remove("panel-open");}
 
-function showPanel(id){hidePanels();$("menuGrid").style.display="none";$(id).hidden=false;refreshProfile();}
+function showPanel(id){hidePanels();$("menuGrid").style.display="none";$(id).hidden=false;$("menuScreen").classList.add("panel-open");refreshProfile();}
 document.querySelectorAll("#accountTabs button").forEach(btn=>btn.addEventListener("click",()=>showPanel(btn.dataset.panel)));
 
 
@@ -522,7 +533,7 @@ document.querySelectorAll("#accountTabs button").forEach(btn=>btn.addEventListen
 $("enterMenuBtn").addEventListener("click",()=>{$("introScreen").style.display="none";$("menuScreen").style.display="block";});
 $("closeRankBtn").addEventListener("click",()=>{$("rankPanel").hidden=true;$("menuGrid").style.display="grid";});
 $("closeHallBtn").addEventListener("click",()=>{$("hallPanel").hidden=true;$("menuGrid").style.display="grid";});
-function openTournament(create){hidePanels();$("menuGrid").style.display="none";$("tournamentPanel").hidden=false;$("tournamentTitle").textContent=create?"CRÉER UN TOURNOI":"REJOINDRE UN TOURNOI";$("tournamentInput").hidden=create;$("tournamentCode").textContent=create?"RR-????":"ENTRE TON CODE";$("tournamentActionBtn").textContent=create?"GÉNÉRER UN CODE":"VALIDER LE CODE";$("tournamentActionBtn").dataset.mode=create?"create":"join";}
+function openTournament(create){hidePanels();$("menuGrid").style.display="none";$("tournamentPanel").hidden=false;$("menuScreen").classList.add("panel-open");$("tournamentTitle").textContent=create?"CRÉER UN TOURNOI":"REJOINDRE UN TOURNOI";$("tournamentInput").hidden=create;$("tournamentCode").textContent=create?"RR-????":"ENTRE TON CODE";$("tournamentActionBtn").textContent=create?"GÉNÉRER UN CODE":"VALIDER LE CODE";$("tournamentActionBtn").dataset.mode=create?"create":"join";}
 $("createTournamentBtn").addEventListener("click",()=>openTournament(true));
 
 $("closeTournamentBtn").addEventListener("click",()=>{$("tournamentPanel").hidden=true;$("menuGrid").style.display="grid";});
@@ -566,7 +577,7 @@ function enterGame(mode){
  setTimeout(()=>{
    $("loadingScreen").hidden=true;
    $("overlay").classList.remove("hidden");
- },1600);
+ },10000);
 }
 document.getElementById("rankedBtn").addEventListener("click",()=>enterGame("CLASSÉ · ENTRAÎNEMENT LOCAL"));
 document.getElementById("quickBtn").addEventListener("click",()=>enterGame("CHRONOMÈTRE SOLO"));
