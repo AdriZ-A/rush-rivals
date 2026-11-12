@@ -280,6 +280,66 @@ body:before{opacity:.12;background-image:linear-gradient(#bdeaff18 1px,transpare
  #gameScreen .bottom{padding:8px}
 }
 
+
+/* MOBILE-FIRST PILOT BAR, ILLUSTRATED LOADING AND TOUCH DRIVING */
+.account-tabs{display:flex;justify-content:center;align-items:center;gap:6px;padding:8px 10px;background:#d8efff;border-bottom:1px solid #9bcde9;flex-wrap:wrap}
+.account-tabs[hidden]{display:none}
+.account-tabs button{font:800 9px 'Nunito',sans-serif;letter-spacing:.25px;padding:7px 10px;min-height:30px;border-radius:9px;background:#f7fcff;color:#17466c;border:1px solid #9bcde9;box-shadow:0 2px 5px #174d7118}
+.account-tabs button:active{background:#c7eaff;transform:scale(.97)}
+.pseudo-box[hidden]{display:none!important}
+.loading-art{display:block;width:min(100%,560px);height:auto;margin:0 auto 4px;overflow:visible}
+.mobile-controls{display:none}
+@media(max-width:700px){
+ .menu-top{min-height:48px;padding:7px 12px}
+ .menu-top .brand{font-size:17px}
+ .menu-profile{font-size:10px;padding:6px 9px}
+ .menu-hero{padding:12px 12px 15px}
+ .menu-hero h1{font-size:32px}
+ .menu-hero p{font-size:12px}
+ .menu-tabs{padding:13px 10px 18px;gap:9px}
+ .menu-tabs .mode-card{min-height:126px;padding:12px 10px;border-radius:14px}
+ .menu-tabs .mode-card .mode-icon{font-size:22px}
+ .menu-tabs .mode-card h2{font-size:12px;margin:7px 0 4px}
+ .menu-tabs .mode-card p{font-size:11px;line-height:1.2}
+ .menu-tabs .mode-card .mode-tag{font-size:8px;margin-top:6px}
+ .account-tabs{gap:5px;padding:7px 6px}
+ .account-tabs button{font-size:8px;padding:6px 8px;min-height:29px}
+ #gameScreen{position:fixed!important;inset:0!important;width:100vw!important;height:100dvh!important;min-height:0!important;overflow:hidden!important}
+ #gameScreen .topbar{min-height:38px}
+ #gameScreen .hud{top:45px;width:96vw;gap:3px}
+ #gameScreen .stat small{font-size:7px;letter-spacing:.5px}
+ #gameScreen .stat strong{font-size:13px}
+ #gameScreen .bottom{display:none}
+ #gameScreen .game-wrap{overflow:hidden}
+ #gameScreen canvas{width:100%;height:100%;object-fit:fill}
+ .mobile-controls{display:block;position:absolute;z-index:12;inset:auto 0 max(12px,env(safe-area-inset-bottom)) 0;height:150px;pointer-events:none;touch-action:none}
+ .joystick-area{position:absolute;left:16px;bottom:0;display:flex;flex-direction:column;align-items:center;gap:4px;color:#ccefff;font:800 8px 'Nunito',sans-serif;letter-spacing:1px;text-shadow:0 1px 5px #00172d}
+ .joystick-base{position:relative;width:112px;height:112px;border-radius:50%;background:radial-gradient(circle,#1d5480aa,#0b2449bb);border:2px solid #a7eaffaa;box-shadow:0 0 18px #28caff44,inset 0 0 15px #8eeaff33;pointer-events:auto;touch-action:none}
+ .joystick-knob{position:absolute;left:50%;top:50%;width:47px;height:47px;transform:translate(-50%,-50%);border-radius:50%;background:linear-gradient(145deg,#e8fbff,#75c9f1);border:2px solid white;box-shadow:0 3px 12px #001a35aa;pointer-events:none}
+ .pedals{position:absolute;right:15px;bottom:3px;display:flex;align-items:flex-end;gap:9px;pointer-events:none}
+ .pedal{pointer-events:auto;touch-action:none;width:65px;height:72px;border-radius:17px;font:900 10px 'Nunito',sans-serif;letter-spacing:.5px;color:white;border:2px solid #ffffff88;box-shadow:0 5px 15px #001a3588}
+ .brake-pedal{height:58px;background:linear-gradient(145deg,#e87983,#a93256)}
+ .gas-pedal{background:linear-gradient(145deg,#72d9a5,#16875f);width:76px;height:88px;font-size:13px}
+ .pedal:active{filter:brightness(1.2);transform:scale(.96)}
+ #gameScreen .overlay{padding:14px}
+ #gameScreen .overlay-card{padding:20px 16px;max-width:92vw}
+ #gameScreen .overlay h2{font-size:22px}
+ #gameScreen .overlay p{font-size:15px}
+ #gameScreen .main-btn{padding:13px 18px;font-size:11px}
+ #gameScreen .loading-screen{padding:16px}
+ #gameScreen .loading-card{max-width:94vw}
+ #gameScreen .loading-art{width:100%;max-width:430px}
+ #gameScreen .loading-logo{font-size:30px}
+}
+@media(max-height:520px) and (orientation:landscape){
+ .mobile-controls{height:112px}
+ .joystick-base{width:84px;height:84px}
+ .joystick-knob{width:38px;height:38px}
+ .pedal{width:58px;height:59px}
+ .gas-pedal{width:66px;height:70px}
+ #gameScreen .hud{top:40px;width:62vw}
+}
+
 </style>
 </head>
 <body>
@@ -308,6 +368,13 @@ body:before{opacity:.12;background-image:linear-gradient(#bdeaff18 1px,transpare
     <button class="mode-card ranked" id="rankedBtn"><div class="mode-icon">🏆</div><h2>RANKED</h2><p>Grimpe les rangs et gagne de l'ELO face aux autres pilotes.</p><span class="mode-tag">MODE COMPÉTITIF</span></button>
     <button class="mode-card tournament-tab" id="createTournamentBtn"><div class="mode-icon">🏅</div><h2>TOURNOIS</h2><p>Crée une compétition ou rejoins un tournoi avec un code.</p><span class="mode-tag">DÉFIS & COMPÉTITIONS</span></button>
     <button class="mode-card chrono-tab" id="quickBtn"><div class="mode-icon">⏱</div><h2>CHRONOMÈTRE SOLO</h2><p>Choisis un circuit au hasard et bats ton meilleur temps.</p><span class="mode-tag">À TOI DE JOUER</span></button>
+  </nav>
+  <nav class="account-tabs" id="accountTabs" aria-label="Espace pilote" hidden>
+    <button type="button" data-panel="rankPanel">CLASSEMENT</button>
+    <button type="button" data-panel="profilePanel">PROFIL</button>
+    <button type="button" data-panel="clubsPanel">CLUBS</button>
+    <button type="button" data-panel="friendsPanel">AMIS</button>
+    <button type="button" data-panel="hallPanel">HALL OF FAME</button>
   </nav>
   <div class="menu-grid" id="menuGrid" hidden></div>
   <div class="menu-panel" id="rankPanel" hidden><h2>CLASSEMENT</h2><p>Classement local de démonstration. Le classement mondial arrivera avec le serveur en ligne.</p><div class="profile-grid"><div class="profile-stat"><small>TON ELO</small><strong id="rankElo">1000</strong></div><div class="profile-stat"><small>RANG</small><strong id="rankTier">BRONZE</strong></div><div class="profile-stat"><small>SAISON</small><strong>01</strong></div></div><div class="menu-actions"><button class="secondary-btn" id="closeRankBtn">RETOUR</button></div></div>
@@ -365,7 +432,27 @@ body:before{opacity:.12;background-image:linear-gradient(#bdeaff18 1px,transpare
 
     <div class="game-wrap">
       <canvas id="game" width="1000" height="650"></canvas>
-      <div class="loading-screen" id="loadingScreen" hidden><div class="loading-card"><div class="loading-logo">RUSH RIVALS</div><div class="circuit-chip" id="loadingCircuitType">CIRCUIT SÉLECTIONNÉ AU HASARD</div><div class="loading-track" id="loadingCircuitName">NEON HARBOR</div><div class="loading-sub">Préparation de la grille… attache ta ceinture !</div><div class="loading-bar"><span></span></div><div class="loading-sub">CHARGEMENT DE LA COURSE</div></div></div>
+      <div class="mobile-controls" id="mobileControls" aria-label="Commandes tactiles">
+        <div class="joystick-area"><div class="joystick-base" id="stickBase"><div class="joystick-knob" id="stickKnob"></div></div><span>DIRECTION</span></div>
+        <div class="pedals"><button type="button" class="pedal brake-pedal" id="brakeTouch">FREIN</button><button type="button" class="pedal gas-pedal" id="gasTouch">GO</button></div>
+      </div>
+      <div class="loading-screen" id="loadingScreen" hidden><div class="loading-card">
+      <svg class="loading-art" viewBox="0 0 620 250" role="img" aria-label="Voiture de course futuriste sur un circuit lumineux">
+        <defs><linearGradient id="rrRoad" x1="0" x2="1"><stop stop-color="#17466f"/><stop offset=".5" stop-color="#102b50"/><stop offset="1" stop-color="#17466f"/></linearGradient><linearGradient id="rrCar" x1="0" x2="1"><stop stop-color="#a5f0ff"/><stop offset="1" stop-color="#438bdf"/></linearGradient><filter id="rrGlow"><feGaussianBlur stdDeviation="7" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <ellipse cx="310" cy="207" rx="275" ry="28" fill="#00cfff" opacity=".15"/>
+        <path d="M15 185 C95 35 515 35 605 185" fill="none" stroke="#4ce4ff" stroke-width="18" opacity=".18"/>
+        <path d="M15 185 C95 35 515 35 605 185" fill="none" stroke="#8deaff" stroke-width="3" stroke-dasharray="15 13" filter="url(#rrGlow)"/>
+        <path d="M40 200 C140 90 480 90 580 200" fill="none" stroke="#ff8edb" stroke-width="2" opacity=".8"/>
+        <g transform="translate(310 145)" filter="url(#rrGlow)">
+          <path d="M-112 20 L-82 -18 Q-62 -40 -22 -43 L50 -38 Q83 -30 104 10 L118 34 L-120 34Z" fill="url(#rrCar)" stroke="#e6fbff" stroke-width="4"/>
+          <path d="M-52 -18 Q-34 -34 0 -34 L43 -30 L67 3 L-73 3Z" fill="#102d50" stroke="#b8efff" stroke-width="3"/>
+          <path d="M-120 22 L-140 32 L-127 44 L-99 39 M112 20 L137 30 L126 43 L100 38" fill="#ff79d5"/>
+          <path d="M-80 36 L-75 49 M80 36 L75 49" stroke="#e9fbff" stroke-width="7" stroke-linecap="round"/>
+          <path d="M-28 15 L28 15" stroke="#fff" stroke-width="4" opacity=".8"/>
+        </g>
+        <g fill="#d9f7ff" opacity=".9"><circle cx="90" cy="62" r="3"/><circle cx="515" cy="48" r="4"/><circle cx="470" cy="102" r="2"/><circle cx="145" cy="115" r="2"/></g>
+      </svg>
+      <div class="loading-logo">RUSH RIVALS</div><div class="circuit-chip" id="loadingCircuitType">CIRCUIT SÉLECTIONNÉ AU HASARD</div><div class="loading-track" id="loadingCircuitName">NEON HARBOR</div><div class="loading-sub">Préparation de la grille… attache ta ceinture !</div><div class="loading-bar"><span></span></div><div class="loading-sub">CHARGEMENT DE LA COURSE</div></div></div>
       <div class="overlay" id="overlay">
         <div class="overlay-card">
           <div class="kicker">READY TO RACE?</div>
@@ -412,6 +499,7 @@ const circuits=[
 let currentCircuit=circuits[0],currentMode="COURSE RAPIDE";
 pseudoInput.value=storedPseudo;
 document.getElementById("profileName").textContent=storedPseudo||"INVITÉ";
+if(storedPseudo){document.querySelector(".pseudo-box").hidden=true;$("accountTabs").hidden=false;}
 function saveStats(){localStorage.setItem("rushRivalsStats",JSON.stringify(stats));}
 function refreshProfile(){
  stats=readStats();const pseudo=localStorage.getItem("rushRivalsPseudo")||"Pilote";
@@ -425,6 +513,7 @@ function refreshProfile(){
 function hidePanels(){["friendsPanel","profilePanel","clubsPanel","rankPanel","hallPanel","tournamentPanel"].forEach(id=>$(id).hidden=true);}
 
 function showPanel(id){hidePanels();$("menuGrid").style.display="none";$(id).hidden=false;refreshProfile();}
+document.querySelectorAll("#accountTabs button").forEach(btn=>btn.addEventListener("click",()=>showPanel(btn.dataset.panel)));
 
 
 
@@ -449,6 +538,8 @@ function savePseudo(){
  pseudoInput.value=value;
  document.getElementById("profileName").textContent=value;
  document.getElementById("pseudoMessage").textContent="Pseudo enregistré sur cet appareil.";
+ document.querySelector(".pseudo-box").hidden=true;
+ $("accountTabs").hidden=false;
  return true;
 }
 document.getElementById("savePseudoBtn").addEventListener("click",savePseudo);
@@ -484,7 +575,7 @@ document.getElementById("newRoomBtn").addEventListener("click",()=>{
  document.getElementById("roomCode").textContent="RR-"+Math.random().toString(36).slice(2,6).toUpperCase();
 });
 document.getElementById("backToMenuBtn").addEventListener("click",()=>{
- running=false;
+ running=false;touchGas=false;touchBrake=false;touchSteer=0;
  if(document.fullscreenElement && document.exitFullscreen)document.exitFullscreen().catch(()=>{});
  document.getElementById("gameScreen").style.display="none";
  document.getElementById("menuScreen").style.display="block";
@@ -514,6 +605,23 @@ function reset(){
  draw();
 }
 const keys={};
+let touchSteer=0,touchGas=false,touchBrake=false;
+const stickBase=$("stickBase"),stickKnob=$("stickKnob");
+if(stickBase){
+ const moveStick=e=>{
+  const r=stickBase.getBoundingClientRect(),max=39;
+  let dx=e.clientX-(r.left+r.width/2),dy=e.clientY-(r.top+r.height/2);
+  const len=Math.hypot(dx,dy)||1,scale=Math.min(1,max/len);
+  dx*=scale;dy*=scale;touchSteer=dx/max;
+  stickKnob.style.transform=`translate(calc(-50% + ${dx}px),calc(-50% + ${dy}px))`;
+ };
+ stickBase.addEventListener("pointerdown",e=>{e.preventDefault();stickBase.setPointerCapture(e.pointerId);moveStick(e);});
+ stickBase.addEventListener("pointermove",e=>{if(e.buttons)moveStick(e);});
+ const releaseStick=()=>{touchSteer=0;stickKnob.style.transform="translate(-50%,-50%)";};
+ stickBase.addEventListener("pointerup",releaseStick);stickBase.addEventListener("pointercancel",releaseStick);stickBase.addEventListener("lostpointercapture",releaseStick);
+}
+function bindPedal(id,setter){const el=$(id);if(!el)return;const on=e=>{e.preventDefault();setter(true);};const off=()=>setter(false);el.addEventListener("pointerdown",on);el.addEventListener("pointerup",off);el.addEventListener("pointercancel",off);el.addEventListener("pointerleave",e=>{if(e.buttons===0)off();});}
+bindPedal("gasTouch",v=>touchGas=v);bindPedal("brakeTouch",v=>touchBrake=v);
 window.addEventListener("keydown",e=>{
  if(["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].includes(e.key))e.preventDefault();
  keys[e.key.toLowerCase()]=true;
@@ -600,15 +708,15 @@ function draw(){
 function update(dt){
  if(!running)return;
  elapsed+=dt;
- const up=keys["arrowup"]||keys["z"]||keys["w"];
- const down=keys["arrowdown"]||keys["s"];
+ const up=keys["arrowup"]||keys["z"]||keys["w"]||touchGas;
+ const down=keys["arrowdown"]||keys["s"]||touchBrake;
  const left=keys["arrowleft"]||keys["q"]||keys["a"];
  const right=keys["arrowright"]||keys["d"];
  if(up)player.speed+=.34*dt*60;
  if(down)player.speed-=.48*dt*60;
  player.speed*=Math.pow(.985,dt*60);
  player.speed=Math.max(-2.8,Math.min(8.5,player.speed));
- let steer=(right?1:0)-(left?1:0);
+ let steer=Math.max(-1,Math.min(1,(right?1:0)-(left?1:0)+touchSteer));
  if(Math.abs(player.speed)>.15)player.angle+=steer*.045*(player.speed/5)*dt*60;
  let nx=player.x+Math.cos(player.angle)*player.speed*dt*60;
  let ny=player.y+Math.sin(player.angle)*player.speed*dt*60;
