@@ -370,6 +370,18 @@ body:before{opacity:.12;background-image:linear-gradient(#bdeaff18 1px,transpare
 @media(max-width:700px){#gameScreen .topbar .brand{display:none}#gameScreen .topbar{justify-content:flex-end}#gameScreen .hud{top:46px}#gameScreen .stat{padding:5px 7px}}
 @media(max-height:520px){#gameScreen .mobile-controls{height:105px}#gameScreen .joystick-base{width:88px;height:88px}#gameScreen .joystick-knob{width:38px;height:38px}#gameScreen .pedal{width:57px;height:60px}}
 
+
+/* Commandes tactiles toujours visibles sur téléphone en paysage, même écran large */
+@media (orientation:landscape) and (max-height:600px){
+ #gameScreen .mobile-controls{display:block!important;visibility:visible!important;opacity:1!important;position:absolute!important;z-index:80!important;inset:auto 0 max(8px,env(safe-area-inset-bottom)) 0!important;height:108px!important;pointer-events:none!important}
+ #gameScreen .joystick-area{display:flex!important;visibility:visible!important;opacity:1!important;left:12px!important;bottom:0!important;pointer-events:none!important}
+ #gameScreen .joystick-base{display:block!important;visibility:visible!important;opacity:1!important;width:88px!important;height:88px!important;pointer-events:auto!important}
+ #gameScreen .joystick-knob{display:block!important;width:38px!important;height:38px!important}
+ #gameScreen .pedals{display:flex!important;right:12px!important;bottom:0!important}
+ #gameScreen .pedal{display:flex!important;width:58px!important;height:60px!important}
+ #gameScreen .gas-pedal{width:66px!important;height:70px!important}
+}
+
 </style>
 </head>
 <body>
