@@ -908,32 +908,76 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.m
   root.userData.paint=paint;return root;
  }
  function addRoad(){
+  // A purpose-built technical circuit: fast opening straight, flowing esses,
+  // a tight hairpin, a downhill sector and a final sweeping return.
   const pts=[
-   new THREE.Vector3(0,2,92),new THREE.Vector3(34,5,88),new THREE.Vector3(68,11,66),
-   new THREE.Vector3(82,16,34),new THREE.Vector3(72,12,8),new THREE.Vector3(48,5,-8),
-   new THREE.Vector3(62,1,-38),new THREE.Vector3(38,4,-72),new THREE.Vector3(4,10,-84),
-   new THREE.Vector3(-30,15,-72),new THREE.Vector3(-62,10,-48),new THREE.Vector3(-82,4,-12),
-   new THREE.Vector3(-70,1,24),new THREE.Vector3(-42,4,62),new THREE.Vector3(-18,8,82)
+   new THREE.Vector3(0,3,108),new THREE.Vector3(28,4,104),new THREE.Vector3(57,7,88),
+   new THREE.Vector3(76,12,62),new THREE.Vector3(72,16,38),new THREE.Vector3(48,13,27),
+   new THREE.Vector3(26,9,38),new THREE.Vector3(18,7,61),new THREE.Vector3(-5,5,72),
+   new THREE.Vector3(-34,3,60),new THREE.Vector3(-57,1,36),new THREE.Vector3(-70,2,7),
+   new THREE.Vector3(-61,5,-19),new THREE.Vector3(-35,8,-31),new THREE.Vector3(-12,11,-18),
+   new THREE.Vector3(-2,13,2),new THREE.Vector3(-17,10,18),new THREE.Vector3(-43,6,12),
+   new THREE.Vector3(-59,3,-10),new THREE.Vector3(-52,2,-45),new THREE.Vector3(-28,4,-76),
+   new THREE.Vector3(5,8,-91),new THREE.Vector3(42,12,-83),new THREE.Vector3(67,9,-58),
+   new THREE.Vector3(65,5,-29),new THREE.Vector3(42,3,-8),new THREE.Vector3(25,2,20),
+   new THREE.Vector3(37,2,51),new THREE.Vector3(29,2,82),new THREE.Vector3(0,3,108)
   ];
-  curve=new THREE.CatmullRomCurve3(pts,true,"catmullrom",.18);
-  trackSamples=[];for(let i=0;i<480;i++){const p=curve.getPointAt(i/480),t=curve.getTangentAt(i/480).normalize();trackSamples.push({x:p.x,y:p.y,z:p.z,nx:-t.z,nz:t.x,tx:t.x,ty:t.y,tz:t.z});}
-  const samples=360,verts=[],uv=[],indices=[];
+  curve=new THREE.CatmullRomCurve3(pts,true,"catmullrom",.12);
+  trackSamples=[];for(let i=0;i<720;i++){const p=curve.getPointAt(i/720),t=curve.getTangentAt(i/720).normalize();trackSamples.push({x:p.x,y:p.y,z:p.z,nx:-t.z,nz:t.x,tx:t.x,ty:t.y,tz:t.z});}
+  const samples=480,verts=[],indices=[];
   for(let i=0;i<=samples;i++){
-   const t=i/samples,p=curve.getPointAt(t),tan=curve.getTangentAt(t).normalize(),side=new THREE.Vector3(-tan.z,0,tan.x);
-   for(const edge of [-10,10]){verts.push(p.x+side.x*edge,p.y+.12,p.z+side.z*edge);uv.push(i/samples,(edge+10)/20);}
+   const p=curve.getPointAt(i/samples),tan=curve.getTangentAt(i/samples).normalize(),side=new THREE.Vector3(-tan.z,0,tan.x);
+   for(const edge of [-10.5,10.5])verts.push(p.x+side.x*edge,p.y+.10,p.z+side.z*edge);
    if(i<samples){const a=i*2;indices.push(a,a+1,a+2,a+1,a+3,a+2);}
   }
-  const geo=new THREE.BufferGeometry();geo.setAttribute("position",new THREE.Float32BufferAttribute(verts,3));geo.setAttribute("uv",new THREE.Float32BufferAttribute(uv,2));geo.setIndex(indices);geo.computeVertexNormals();
-  const road=new THREE.Mesh(geo,new THREE.MeshStandardMaterial({color:0x18263c,roughness:.88,side:THREE.DoubleSide}));road.receiveShadow=true;scene.add(road);
-  const edgeMat=new THREE.MeshStandardMaterial({color:0x20eaff,emissive:0x087b9d,emissiveIntensity:1.8});
+  const geo=new THREE.BufferGeometry();geo.setAttribute("position",new THREE.Float32BufferAttribute(verts,3));geo.setIndex(indices);geo.computeVertexNormals();
+  const asphalt=new THREE.MeshStandardMaterial({color:0x202c3d,roughness:.94,metalness:.08,side:THREE.DoubleSide});
+  const road=new THREE.Mesh(geo,asphalt);scene.add(road);
+  const shoulderMat=new THREE.MeshStandardMaterial({color:0x657487,roughness:.9});
+  const curbCyan=new THREE.MeshStandardMaterial({color:0x13dff5,emissive:0x087b9d,emissiveIntensity:1.25});
+  const curbPink=new THREE.MeshStandardMaterial({color:0xff45bd,emissive:0x8d145e,emissiveIntensity:1.1});
+  const railMat=new THREE.MeshStandardMaterial({color:0x263b50,metalness:.72,roughness:.32});
+  const glowMat=new THREE.MeshBasicMaterial({color:0x39eaff});
+  // Continuous shoulder ribbons and guardrails on both sides.
   for(const side of [-1,1]){
-   const railPts=[];for(let i=0;i<=samples;i++){const t=i/samples,p=curve.getPointAt(t),tan=curve.getTangentAt(t).normalize(),n=new THREE.Vector3(-tan.z,0,tan.x);railPts.push(new THREE.Vector3(p.x+n.x*side*10.5,p.y+.42,p.z+n.z*side*10.5));}
-   const rail=new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(railPts),samples,.48,5,true),edgeMat);scene.add(rail);
+   const shoulderPts=[],railPts=[];
+   for(let i=0;i<=samples;i++){const p=curve.getPointAt(i/samples),tan=curve.getTangentAt(i/samples).normalize(),n=new THREE.Vector3(-tan.z,0,tan.x);
+    shoulderPts.push(new THREE.Vector3(p.x+n.x*side*11.15,p.y+.045,p.z+n.z*side*11.15));
+    railPts.push(new THREE.Vector3(p.x+n.x*side*11.7,p.y+1.05,p.z+n.z*side*11.7));
+   }
+   const shoulder=new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(shoulderPts),samples,.22,5,true),shoulderMat);scene.add(shoulder);
+   const rail=new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(railPts),samples,.28,6,true),railMat);scene.add(rail);
+   const neon=new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(railPts.map(v=>new THREE.Vector3(v.x,v.y+.12,v.z))),samples,.075,5,true),side<0?curbCyan:curbPink);scene.add(neon);
   }
-  const dashMat=new THREE.MeshBasicMaterial({color:0xd7faff});
-  for(let i=0;i<120;i++){const p=curve.getPointAt(i/120),d=curve.getTangentAt(i/120);const dash=new THREE.Mesh(new THREE.BoxGeometry(.22,.035,2.3),dashMat);dash.position.set(p.x,p.y+.17,p.z);dash.rotation.y=Math.atan2(d.x,d.z);scene.add(dash);}
-  const gateMat=new THREE.MeshStandardMaterial({color:0x17dfff,emissive:0x087b9d,emissiveIntensity:1.4});
-  for(const t of [.24,.68]){const p=curve.getPointAt(t),d=curve.getTangentAt(t),yaw=Math.atan2(d.x,d.z);for(const side of [-1,1]){const post=new THREE.Mesh(new THREE.BoxGeometry(.65,6,.65),gateMat);post.position.set(p.x+Math.cos(yaw)*side*9,p.y+3,p.z-Math.sin(yaw)*side*9);scene.add(post);}const beam=new THREE.Mesh(new THREE.BoxGeometry(19,.65,.65),gateMat);beam.position.set(p.x,p.y+6,p.z);beam.rotation.y=yaw;scene.add(beam);}
+  // Alternating raised curb blocks, grouped into a single lightweight mesh.
+  const curbPositions=[],curbIndices=[];let ci=0;
+  for(let i=0;i<samples;i+=3){const p=curve.getPointAt(i/samples),d=curve.getTangentAt(i/samples).normalize(),n=new THREE.Vector3(-d.z,0,d.x);
+   for(const side of [-1,1]){const c=p.clone().addScaledVector(n,side*9.85);const yaw=Math.atan2(d.x,d.z),len=.82,w=.72,h=.24;
+    const corners=[[-len/2,0,-w/2],[len/2,0,-w/2],[len/2,0,w/2],[-len/2,0,w/2],[-len/2,h,-w/2],[len/2,h,-w/2],[len/2,h,w/2],[-len/2,h,w/2]];
+    const base=curbPositions.length/3;for(const [x,y,z] of corners){curbPositions.push(c.x+x*Math.cos(yaw)+z*Math.sin(yaw),p.y+y+.12,c.z-x*Math.sin(yaw)+z*Math.cos(yaw));}
+    const faces=[0,1,5,0,5,4,1,2,6,1,6,5,2,3,7,2,7,6,3,0,4,3,4,7,4,5,6,4,6,7];for(const f of faces)curbIndices.push(base+f);
+   }
+  }
+  const curbGeo=new THREE.BufferGeometry();curbGeo.setAttribute("position",new THREE.Float32BufferAttribute(curbPositions,3));curbGeo.setIndex(curbIndices);curbGeo.computeVertexNormals();const curbs=new THREE.Mesh(curbGeo,[curbCyan,curbPink]);scene.add(curbs);
+  // Dashed centre line and braking-zone stripes.
+  const dashMat=new THREE.MeshBasicMaterial({color:0xe6faff});
+  for(let i=0;i<160;i++){const t=i/160,p=curve.getPointAt(t),d=curve.getTangentAt(t);const dash=new THREE.Mesh(new THREE.BoxGeometry(.16,.035,2.0),dashMat);dash.position.set(p.x,p.y+.17,p.z);dash.rotation.y=Math.atan2(d.x,d.z);scene.add(dash);}
+  const stripeMat=new THREE.MeshBasicMaterial({color:0xffd76a});
+  for(const t0 of [.19,.48,.77]){const p=curve.getPointAt(t0),d=curve.getTangentAt(t0),yaw=Math.atan2(d.x,d.z);for(let k=-2;k<=2;k++){const stripe=new THREE.Mesh(new THREE.BoxGeometry(.22,.045,1.4),stripeMat);stripe.position.set(p.x+k*2.6*Math.cos(yaw),p.y+.19,p.z-k*2.6*Math.sin(yaw));stripe.rotation.y=yaw;scene.add(stripe);}}
+  // Start/finish and sector gates, with readable luminous crossbeams.
+  const gateMat=new THREE.MeshStandardMaterial({color:0x17dfff,emissive:0x087b9d,emissiveIntensity:1.8,metalness:.35});
+  for(const t of [.0,.34,.68]){const p=curve.getPointAt(t),d=curve.getTangentAt(t),yaw=Math.atan2(d.x,d.z);for(const side of [-1,1]){const post=new THREE.Mesh(new THREE.BoxGeometry(.8,7,.9),gateMat);post.position.set(p.x+Math.cos(yaw)*side*9.3,p.y+3.5,p.z-Math.sin(yaw)*side*9.3);scene.add(post);}const beam=new THREE.Mesh(new THREE.BoxGeometry(20,.75,1),gateMat);beam.position.set(p.x,p.y+7,p.z);beam.rotation.y=yaw;scene.add(beam);}
+  // A framed tunnel portal over the back-sector straight.
+  const tunnelT=.57,tp=curve.getPointAt(tunnelT),td=curve.getTangentAt(tunnelT),tyaw=Math.atan2(td.x,td.z);
+  const tunnelMat=new THREE.MeshStandardMaterial({color:0x15253b,metalness:.7,roughness:.28});
+  for(const side of [-1,1]){const post=new THREE.Mesh(new THREE.BoxGeometry(1.7,8,2),tunnelMat);post.position.set(tp.x+Math.cos(tyaw)*side*10,tp.y+4,tp.z-Math.sin(tyaw)*side*10);post.rotation.y=tyaw;scene.add(post);const strip=new THREE.Mesh(new THREE.BoxGeometry(.22,7.4,2.08),curbPink);strip.position.copy(post.position);strip.rotation.y=tyaw;scene.add(strip);}
+  const crown=new THREE.Mesh(new THREE.BoxGeometry(22,1.5,2.2),tunnelMat);crown.position.set(tp.x,tp.y+8,tp.z);crown.rotation.y=tyaw;scene.add(crown);
+  const crownGlow=new THREE.Mesh(new THREE.BoxGeometry(19,.16,2.3),curbCyan);crownGlow.position.set(tp.x,tp.y+8.05,tp.z);crownGlow.rotation.y=tyaw;scene.add(crownGlow);
+  // Trackside light pylons at intervals; no dynamic point lights (mobile-friendly).
+  for(let i=0;i<24;i++){const t=i/24,p=curve.getPointAt(t),d=curve.getTangentAt(t).normalize(),n=new THREE.Vector3(-d.z,0,d.x),side=i%2?1:-1,q=p.clone().addScaledVector(n,side*14.2);
+   const pole=new THREE.Mesh(new THREE.CylinderGeometry(.09,.15,5.8,6),railMat);pole.position.set(q.x,p.y+2.9,q.z);scene.add(pole);
+   const head=new THREE.Mesh(new THREE.BoxGeometry(1.2,.18,.42),glowMat);head.position.set(q.x,p.y+5.85,q.z);scene.add(head);
+  }
  }
  function init(){
   renderer=new THREE.WebGLRenderer({canvas,antialias:false,alpha:false,powerPreference:"high-performance"});renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.1));renderer.shadowMap.enabled=false;
