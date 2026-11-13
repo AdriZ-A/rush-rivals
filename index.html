@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RUSH RIVALS — Neon Edition</title>
+<title>RUSH RIVALS — Color Festival</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
 *,:before,:after{font-family:'Fredoka One','Fredoka','Arial Rounded MT Bold',sans-serif!important;}
@@ -395,6 +395,79 @@ button:hover,.btn:hover,.mode-card:hover{filter:brightness(1.22) saturate(1.25)}
 .mode-card:nth-child(4n+3){background:linear-gradient(145deg,#28563f,#173b3b)!important;border-color:#8dff83!important}
 .mode-card:nth-child(4n){background:linear-gradient(145deg,#67451e,#39264e)!important;border-color:#ffc65c!important}
 .stat,.hud .stat{border-color:#73dfff88}
+
+
+/* Nouvelle direction artistique : festival de course, couleurs franches, zéro néon */
+:root{
+ --cyan:#2788d8;--pink:#ef5575;--purple:#8264c8;--yellow:#f4bd43;
+ --bg:#f4f0e8;--lime:#65a96b;--orange:#ef8750;--blue:#3977c8;
+ --ink:#24324a;--paper:#fffaf1;
+}
+body{
+ color:var(--ink);
+ background:linear-gradient(135deg,#f9e7c9 0%,#f6d9d9 34%,#dceafa 68%,#d9eee1 100%);
+}
+body:before{opacity:.13;background-image:radial-gradient(#52617a 1px,transparent 1px);background-size:22px 22px;mask-image:linear-gradient(to bottom,black,transparent)}
+.page,.menu-screen{color:var(--ink)}
+.brand{color:#253550}.brand span{color:#3977c8;text-shadow:none}
+.status{color:#356c5b;border:1px solid #83bda2;background:#e2f2e7}
+.hero .kicker,.kicker{color:#d44d70;text-shadow:none}
+h1,.menu-hero h1{
+ background:linear-gradient(100deg,#e65b62 0%,#e99b37 28%,#3988c8 58%,#6b9e6a 82%,#8665bc 100%);
+ color:transparent;background-clip:text;filter:none;text-shadow:none
+}
+.subtitle,.menu-hero p{color:#58657b}
+.panel{border:1px solid #d9cdbd;background:linear-gradient(145deg,#fffdf8,#f4eee5);box-shadow:0 14px 35px #52617a18;color:#28364c}
+.menu-screen{background:radial-gradient(ellipse at 12% 28%,#f5a7a733,transparent 35%),radial-gradient(ellipse at 88% 18%,#8fc4e955,transparent 34%),radial-gradient(ellipse at 50% 95%,#f3d27b55,transparent 42%)}
+.menu-hero h1{filter:none}
+.pseudo-box{background:#fffaf1;border:2px solid #e9b6a7;box-shadow:0 12px 28px #53627a16;color:#26364c}
+.pseudo-box label{color:#637188}
+.pseudo-row input,.friend-input{background:#fff;border:1px solid #c9d2dd;color:#24324a}
+.pseudo-row input:focus,.friend-input:focus{border-color:#3977c8}
+.menu-grid{gap:16px}
+.mode-card,.mode-card:nth-child(n){
+ color:#26364c;border:2px solid transparent;border-radius:20px;box-shadow:0 10px 22px #485b731c;
+}
+.mode-card:nth-child(4n+1){background:linear-gradient(145deg,#ffe3a6,#f8c982)!important;border-color:#e7b65e!important}
+.mode-card:nth-child(4n+2){background:linear-gradient(145deg,#c9e8f5,#91c8e7)!important;border-color:#76b7d8!important}
+.mode-card:nth-child(4n+3){background:linear-gradient(145deg,#f6cbd5,#eaa3b7)!important;border-color:#df8da6!important}
+.mode-card:nth-child(4n){background:linear-gradient(145deg,#d5ebcb,#a9d39e)!important;border-color:#8dbb83!important}
+.mode-card .mode-icon{color:#344c68;text-shadow:none}
+.mode-card h2{color:#26364c}
+.mode-card p{color:#4b5b70}
+.mode-card .mode-tag{color:#435d78}
+.mode-card:hover{transform:translateY(-5px);filter:saturate(1.08);box-shadow:0 16px 28px #485b7328}
+.menu-profile{background:#fffaf1;border:1px solid #e0cdb8;color:#40516b}
+.menu-panel{background:#fffaf1;border:2px solid #e8a6ae;color:#29384d}
+.menu-panel h2{color:#c44d69}.menu-panel p{color:#536178}
+.menu-panel .room-code{background:#eaf2f8;color:#356fa9}
+.menu-note{color:#66748a}
+.menu-tabs button{color:#3b4d65;background:#fffaf1;border:1px solid #d8cbbb}
+.menu-tabs button:hover{background:#e7f0f7}
+.profile-stat{background:#f1e9dd;border:1px solid #ddd0be;color:#26364c}
+.profile-stat small{color:#64728a}
+.profile-stat strong{color:#bd7b27}
+.panel-subtitle{color:#31445f}
+.main-btn{color:#fff;background:linear-gradient(100deg,#397fc3,#5a9dca);box-shadow:0 5px 0 #285c91}
+.main-btn:hover{transform:translateY(-2px);box-shadow:0 7px 0 #285c91}
+.secondary-btn{background:#e8edf2;color:#35465e;border:1px solid #cbd4df}
+.game-menu-btn{border:1px solid #9db8d0;color:#356fa9;background:#eaf2f8}
+.loading-screen{background:linear-gradient(135deg,#f4d8a6,#e8c5d0 48%,#c5dff0);backdrop-filter:blur(5px)}
+.loading-logo{background:linear-gradient(90deg,#d95668,#e99b37,#397fc3,#6b9e6a);color:transparent;background-clip:text}
+.loading-sub{color:#536178}
+.loading-bar{background:#d6dce3}
+.stat strong{color:#397fc3;text-shadow:none}
+.stat:nth-child(2) strong{color:#bf852d}.stat:nth-child(3) strong{color:#d45b78}.stat:nth-child(4) strong{color:#8065b4}
+.game-wrap{border:2px solid #d8cbbb;box-shadow:0 10px 28px #26364c22}
+.view-toggle{border:1px solid #a8bfd2;background:#eaf2f8;color:#356fa9}
+.view-toggle.active{background:#bfe3d0;color:#285b49;box-shadow:none}
+.overlay{background:#25334bcc;backdrop-filter:blur(5px)}
+.overlay h2{color:#fff;text-shadow:none}
+.main-btn,.restart,.game-menu-btn,.view-toggle{letter-spacing:.6px}
+.footer{color:#68758a}
+.info-card{border:1px solid #d9d2c7;background:#fffaf1}
+.info-card strong{color:#397fc3}.info-card p{color:#59677b}
+@media(max-width:700px){.menu-hero p{color:#58657b}}
 
 </style>
 </head>
