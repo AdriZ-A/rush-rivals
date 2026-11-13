@@ -920,7 +920,7 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.m
    new THREE.Vector3(-59,3,-10),new THREE.Vector3(-52,2,-45),new THREE.Vector3(-28,4,-76),
    new THREE.Vector3(5,8,-91),new THREE.Vector3(42,12,-83),new THREE.Vector3(67,9,-58),
    new THREE.Vector3(65,5,-29),new THREE.Vector3(42,3,-8),new THREE.Vector3(25,2,20),
-   new THREE.Vector3(37,2,51),new THREE.Vector3(29,2,82),new THREE.Vector3(0,3,108)
+   new THREE.Vector3(37,2,51),new THREE.Vector3(29,2,82)
   ];
   curve=new THREE.CatmullRomCurve3(pts,true,"catmullrom",.12);
   trackSamples=[];for(let i=0;i<720;i++){const p=curve.getPointAt(i/720),t=curve.getTangentAt(i/720).normalize();trackSamples.push({x:p.x,y:p.y,z:p.z,nx:-t.z,nz:t.x,tx:t.x,ty:t.y,tz:t.z});}
@@ -989,7 +989,7 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.m
   addRoad();
   const grid=new THREE.GridHelper(320,32,0x124b67,0x10283a);grid.position.y=-.16;scene.add(grid);
   const towerMat=new THREE.MeshStandardMaterial({color:0x172b48,metalness:.5,roughness:.5});
-  for(let i=0;i<24;i++){const t=i/24,p=curve.getPointAt(t),tan=curve.getTangentAt(t),side=new THREE.Vector3(-tan.z,0,tan.x),sgn=i%2?1:-1;const x=p.x+side.x*sgn*(19+(i%3)*5),z=p.z+side.z*sgn*(19+(i%3)*5),h=4+(i*7%17);const b=new THREE.Mesh(new THREE.BoxGeometry(3+(i%3),h,3+(i%4)),towerMat);b.position.set(x,h/2-.1,z);scene.add(b);}
+  for(let i=0;i<36;i++){const t=i/36,p=curve.getPointAt(t),tan=curve.getTangentAt(t),side=new THREE.Vector3(-tan.z,0,tan.x),sgn=i%2?1:-1;const x=p.x+side.x*sgn*(21+(i%4)*5),z=p.z+side.z*sgn*(21+(i%4)*5),h=5+(i*11%24);const b=new THREE.Mesh(new THREE.BoxGeometry(3+(i%3)*.8,h,3+(i%4)*.7),towerMat);b.position.set(x,h/2-.1,z);scene.add(b);if(i%3===0){const beacon=new THREE.Mesh(new THREE.BoxGeometry(.16,h*.72,.16),new THREE.MeshBasicMaterial({color:i%2?0x16dfff:0xff38c7}));beacon.position.set(x-1.6,h*.52,z);scene.add(beacon);}}
   player=makeCar(0x00dfff);scene.add(player);
   const rivalColors=[0xff38c7,0xffd84d,0x9b65ff];rivalColors.forEach((c,i)=>{const car=makeCar(c);scene.add(car);rivals.push({car,t:(.08+i*.25)%1,speed:.018+i*.002});});
   const p=curve.getPointAt(.02),tan=curve.getTangentAt(.02);player.position.set(p.x,p.y+.02,p.z);heading=Math.atan2(tan.x,tan.z);player.rotation.y=heading;
