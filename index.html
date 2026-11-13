@@ -382,6 +382,20 @@ body:before{opacity:.12;background-image:linear-gradient(#bdeaff18 1px,transpare
  #gameScreen .gas-pedal{width:66px!important;height:70px!important}
 }
 
+
+/* Palette plus vive : menus, boutons, panneaux et ambiance arcade */
+:root{--cyan:#35f2ff;--pink:#ff4fcf;--purple:#a879ff;--yellow:#ffe45e;--bg:#090b1c;--lime:#8cff72;--orange:#ff9b54;--blue:#579bff}
+body{background:radial-gradient(ellipse at 8% 12%,#163e70 0%,transparent 38%),radial-gradient(ellipse at 92% 18%,#64245e 0%,transparent 35%),radial-gradient(ellipse at 52% 100%,#174d48 0%,transparent 42%),var(--bg)}
+.panel{border-color:#8b77e988;background:linear-gradient(135deg,#172d50f2,#29183bf2 55%,#102e35f2);box-shadow:0 0 24px #4a9dff22,0 14px 35px #0008}
+button,.btn,.mode-card{transition:filter .18s ease,transform .18s ease}
+button,.btn{border-color:#6deaff88}
+button:hover,.btn:hover,.mode-card:hover{filter:brightness(1.22) saturate(1.25)}
+.mode-card:nth-child(4n+1){background:linear-gradient(145deg,#174b70,#17234a)!important;border-color:#37dfff!important}
+.mode-card:nth-child(4n+2){background:linear-gradient(145deg,#642653,#30204f)!important;border-color:#ff65c9!important}
+.mode-card:nth-child(4n+3){background:linear-gradient(145deg,#28563f,#173b3b)!important;border-color:#8dff83!important}
+.mode-card:nth-child(4n){background:linear-gradient(145deg,#67451e,#39264e)!important;border-color:#ffc65c!important}
+.stat,.hud .stat{border-color:#73dfff88}
+
 </style>
 </head>
 <body>
@@ -1002,10 +1016,10 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.m
   const startP=curve.getPointAt(0),startD=curve.getTangentAt(0),line=new THREE.Mesh(new THREE.BoxGeometry(20,.05,.7),new THREE.MeshBasicMaterial({color:0xffffff}));line.position.set(startP.x,startP.y+.12,startP.z);line.rotation.y=Math.atan2(startD.x,startD.z);scene.add(line);
  }
  function addCity(){
-  const roadMat=new THREE.MeshStandardMaterial({color:0x17212d,roughness:1});
-  const sidewalkMat=new THREE.MeshStandardMaterial({color:0x46515e,roughness:1});
-  const concrete=[0x35465a,0x435267,0x293b50,0x4a5261,0x283449].map(c=>new THREE.MeshStandardMaterial({color:c,metalness:.12,roughness:.82}));
-  const windowMats=[0xffd78a,0x69dfff,0xff83d2].map(c=>new THREE.MeshBasicMaterial({color:c}));
+  const roadMat=new THREE.MeshStandardMaterial({color:0x202d43,roughness:1});
+  const sidewalkMat=new THREE.MeshStandardMaterial({color:0x68778b,roughness:1});
+  const concrete=[0x345477,0x684b82,0x3d777d,0x8a5268,0x80643d,0x435d91,0x3f765c,0x665c9c].map(c=>new THREE.MeshStandardMaterial({color:c,metalness:.16,roughness:.72}));
+  const windowMats=[0xffd36e,0x55eaff,0xff70c8,0x9bff79,0xb59aff,0xff9364].map(c=>new THREE.MeshBasicMaterial({color:c}));
   const darkRoad=new THREE.Mesh(new THREE.PlaneGeometry(520,520),roadMat);darkRoad.rotation.x=-Math.PI/2;darkRoad.position.y=-.16;scene.add(darkRoad);
   // Grille de rues autour du circuit : chaussées, trottoirs et îlots urbains.
   for(let k=-2;k<=2;k++){
