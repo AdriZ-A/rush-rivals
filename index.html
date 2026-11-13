@@ -447,6 +447,35 @@ body:before{opacity:.12;background-image:linear-gradient(#bdeaff18 1px,transpare
 .solo-picker{width:min(1120px,100%);margin:auto}.solo-picker-head{text-align:center;margin-bottom:24px}.solo-picker-head .kicker{color:#9beaff}.solo-picker-head h2{font-size:clamp(30px,5vw,52px);margin:8px 0;color:#fff}.solo-picker-head p{color:#c3e4f8;margin:0}.solo-circuit-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:13px}.solo-circuit-card{min-width:0;text-align:left;padding:12px;border-radius:17px;border:2px solid #6cb8e044;background:linear-gradient(155deg,#17456d,#0b2544);color:#fff;transition:.2s}.solo-circuit-card:hover,.solo-circuit-card:focus-visible{transform:translateY(-5px);border-color:#9ceaff;box-shadow:0 12px 28px #00bfff33;outline:none}.solo-circuit-card svg{width:100%;height:116px;display:block;border-radius:10px;background:linear-gradient(145deg,#071b30,#123b5c);margin-bottom:12px}.solo-circuit-card h3{font-size:16px;margin:0 0 5px}.solo-circuit-card p{font-size:12px;line-height:1.4;color:#c1dcef;margin:0 0 12px;min-height:34px}.solo-circuit-card span{display:block;font-size:10px;letter-spacing:1px;color:#9beaff}.solo-picker-actions{display:flex;justify-content:center;margin-top:22px}.solo-picker-actions button{padding:12px 22px;border-radius:10px;background:#173d60;border:1px solid #75b9df;color:#e9f8ff}.track-name-hint{font-size:11px;color:#9ccce8;margin-top:8px}
 @media(max-width:900px){.solo-circuit-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:560px){#soloCircuitScreen{padding:18px 12px;align-items:flex-start}.solo-circuit-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.solo-circuit-card{padding:9px}.solo-circuit-card svg{height:90px}.solo-circuit-card h3{font-size:13px}.solo-circuit-card p{font-size:11px;min-height:44px}}
+
+/* RUSH RIVALS — premium loading screen */
+#gameScreen .loading-screen{background:radial-gradient(ellipse at 50% 35%,#174d77 0%,#081d36 48%,#030b17 100%)!important;backdrop-filter:blur(14px)!important;padding:clamp(12px,3vw,32px)!important;overflow:auto}
+#gameScreen .loading-card{width:min(100%,720px)!important;max-width:720px!important;padding:clamp(14px,3vw,28px)!important;border:1px solid #79dfff55;border-radius:24px;background:linear-gradient(155deg,#102e4dF2,#07172cf5 72%);box-shadow:0 24px 90px #0009,0 0 50px #1abfff18;position:relative;overflow:hidden}
+#gameScreen .loading-card:before{content:"";position:absolute;inset:0 0 auto;height:2px;background:linear-gradient(90deg,transparent,#39e8ff,#ff50c6,transparent)}
+.loading-topline{display:flex;align-items:center;justify-content:center;gap:9px;color:#e9faff;font:900 11px 'Fredoka One',sans-serif;letter-spacing:2.5px}
+.loading-live-dot,.loading-footer i{width:7px;height:7px;border-radius:50%;background:#54f3c1;box-shadow:0 0 12px #54f3c1;display:inline-block}
+.loading-season{color:#75c9ef;font-size:9px;letter-spacing:1.5px;border-left:1px solid #6eb6d477;padding-left:10px}
+#gameScreen .loading-art{width:100%;max-width:660px;margin:14px auto 4px;filter:drop-shadow(0 10px 25px #0007)}
+.loading-car{animation:loadingCarFloat 2.8s ease-in-out infinite;transform-origin:377px 225px}
+@keyframes loadingCarFloat{0%,100%{transform:translateY(1px)}50%{transform:translateY(-5px)}}
+.loading-heading{font:900 clamp(21px,4vw,32px) 'Fredoka One',sans-serif;letter-spacing:1.5px;color:#f4fbff;text-shadow:0 0 22px #39cfff55;margin:10px 0 12px}
+.loading-circuit-row{display:flex;justify-content:center;align-items:center;gap:12px;flex-wrap:wrap}
+#gameScreen .circuit-chip{background:#143b5b;border:1px solid #54d8ff77;color:#a9efff;padding:7px 13px}
+.loading-circuit-row strong{font:800 13px 'Fredoka One',sans-serif;letter-spacing:1.2px;color:#fff}
+#gameScreen .loading-sub{color:#9ebbd2;font:12px 'Fredoka One',sans-serif;margin:10px 0}
+.loading-progress-head{display:flex;justify-content:space-between;gap:10px;color:#82a9c4;font:9px 'Fredoka One',sans-serif;letter-spacing:1.4px;margin-top:20px}
+.loading-ready{color:#7cebd0}
+#gameScreen .loading-bar{height:7px;background:#183650;border:1px solid #4ca9d344;border-radius:20px;margin:9px 0 13px;overflow:hidden}
+#gameScreen .loading-bar span{background:linear-gradient(90deg,#27d9f2,#75f4d0,#ff59c7);box-shadow:0 0 14px #36dfff;animation:loadbar 10s linear forwards!important}
+.loading-footer{display:flex;justify-content:center;gap:clamp(12px,4vw,32px);flex-wrap:wrap;color:#8fb4cc;font:9px 'Fredoka One',sans-serif;letter-spacing:1px}
+.loading-footer span{display:flex;align-items:center;gap:6px}
+.loading-footer i{width:5px;height:5px}
+.loading-tip{margin:18px auto 0;padding:11px 14px;max-width:480px;border-radius:12px;background:#0b2742;border:1px solid #4bb8e633;color:#83a9c4;font:9px 'Fredoka One',sans-serif;letter-spacing:1px}
+.loading-tip b{display:block;color:#e0f6ff;font-size:11px;letter-spacing:.2px;margin-top:5px}
+@media(max-width:600px){#gameScreen .loading-card{padding:12px!important;border-radius:18px}.loading-topline{font-size:9px;letter-spacing:1.5px}#gameScreen .loading-art{margin:8px auto 0}.loading-heading{margin:5px 0 9px}.loading-progress-head{margin-top:14px}.loading-tip{margin-top:12px;padding:9px}}
+@media(max-height:560px) and (orientation:landscape){#gameScreen .loading-card{max-width:560px!important;padding:9px 16px!important}.loading-art{max-height:36vh!important}.loading-heading{font-size:20px;margin:2px 0 6px}.loading-tip{display:none}.loading-progress-head{margin-top:8px}}
+@media(prefers-reduced-motion:reduce){.loading-car{animation:none!important}#gameScreen .loading-bar span{animation:none!important;width:100%}}
+
 </style>
 <section id="soloCircuitScreen" aria-label="Choix du circuit"><div class="solo-picker"><div class="solo-picker-head"><div class="kicker">CHRONOMÈTRE SOLO</div><h2>CHOISIS TON TERRAIN.</h2><p>5 circuits uniques, des tracés larges et des murs pour rester dans la course.</p></div><div class="solo-circuit-grid">
 <button class="solo-circuit-card" data-circuit="0"><svg viewBox="0 0 200 116"><path d="M20 85 L20 48 Q20 25 48 25 L125 25 Q153 25 153 50 L153 73 Q153 91 175 91" fill="none" stroke="#32678a" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 85 L20 48 Q20 25 48 25 L125 25 Q153 25 153 50 L153 73 Q153 91 175 91" fill="none" stroke="#9beaff" stroke-width="3" stroke-dasharray="8 7"/></svg><h3>NEON HARBOR</h3><p>Quais, conteneurs et virages à 90° : précision au port.</p><span>PORT · TECHNIQUE</span></button>
@@ -482,23 +511,45 @@ body:before{opacity:.12;background-image:linear-gradient(#bdeaff18 1px,transpare
         <div class="joystick-area"><div class="joystick-base" id="stickBase"><div class="joystick-knob" id="stickKnob"></div></div><span>DIRECTION</span></div>
         <div class="pedals"><button type="button" class="pedal brake-pedal" id="brakeTouch">FREIN</button><button type="button" class="pedal gas-pedal" id="gasTouch">GO</button></div>
       </div>
-      <div class="loading-screen" id="loadingScreen" hidden><div class="loading-card">
-      <svg class="loading-art" viewBox="0 0 620 250" role="img" aria-label="Voiture de course futuriste sur un circuit lumineux">
-        <defs><linearGradient id="rrRoad" x1="0" x2="1"><stop stop-color="#17466f"/><stop offset=".5" stop-color="#102b50"/><stop offset="1" stop-color="#17466f"/></linearGradient><linearGradient id="rrCar" x1="0" x2="1"><stop stop-color="#a5f0ff"/><stop offset="1" stop-color="#438bdf"/></linearGradient><filter id="rrGlow"><feGaussianBlur stdDeviation="7" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
-        <ellipse cx="310" cy="207" rx="275" ry="28" fill="#00cfff" opacity=".15"/>
-        <path d="M15 185 C95 35 515 35 605 185" fill="none" stroke="#4ce4ff" stroke-width="18" opacity=".18"/>
-        <path d="M15 185 C95 35 515 35 605 185" fill="none" stroke="#8deaff" stroke-width="3" stroke-dasharray="15 13" filter="url(#rrGlow)"/>
-        <path d="M40 200 C140 90 480 90 580 200" fill="none" stroke="#ff8edb" stroke-width="2" opacity=".8"/>
-        <g transform="translate(310 145)" filter="url(#rrGlow)">
-          <path d="M-112 20 L-82 -18 Q-62 -40 -22 -43 L50 -38 Q83 -30 104 10 L118 34 L-120 34Z" fill="url(#rrCar)" stroke="#e6fbff" stroke-width="4"/>
-          <path d="M-52 -18 Q-34 -34 0 -34 L43 -30 L67 3 L-73 3Z" fill="#102d50" stroke="#b8efff" stroke-width="3"/>
-          <path d="M-120 22 L-140 32 L-127 44 L-99 39 M112 20 L137 30 L126 43 L100 38" fill="#ff79d5"/>
-          <path d="M-80 36 L-75 49 M80 36 L75 49" stroke="#e9fbff" stroke-width="7" stroke-linecap="round"/>
-          <path d="M-28 15 L28 15" stroke="#fff" stroke-width="4" opacity=".8"/>
-        </g>
-        <g fill="#d9f7ff" opacity=".9"><circle cx="90" cy="62" r="3"/><circle cx="515" cy="48" r="4"/><circle cx="470" cy="102" r="2"/><circle cx="145" cy="115" r="2"/></g>
-      </svg>
-      <div class="loading-logo">RUSH RIVALS</div><div class="circuit-chip" id="loadingCircuitType">CIRCUIT SÉLECTIONNÉ AU HASARD</div><div class="loading-track" id="loadingCircuitName">NEON HARBOR</div><div class="loading-sub">Préparation de la grille… attache ta ceinture !</div><div class="loading-bar"><span></span></div><div class="loading-sub">CHARGEMENT DE LA COURSE</div></div></div>
+      <div class="loading-screen" id="loadingScreen" hidden>
+       <div class="loading-card">
+        <div class="loading-topline"><span class="loading-live-dot"></span> RUSH RIVALS <span class="loading-season">RACING SYSTEMS</span></div>
+        <svg class="loading-art" viewBox="0 0 760 340" role="img" aria-label="Illustration d'une voiture de course sur un circuit futuriste au milieu d'une ville néon">
+         <defs>
+          <linearGradient id="loadSky" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#12365c"/><stop offset="1" stop-color="#07172c"/></linearGradient>
+          <linearGradient id="loadTrack" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#405b76"/><stop offset=".48" stop-color="#152b45"/><stop offset="1" stop-color="#07172a"/></linearGradient>
+          <linearGradient id="loadCarPaint" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#efffff"/><stop offset=".45" stop-color="#75dfff"/><stop offset="1" stop-color="#1676b5"/></linearGradient>
+          <linearGradient id="loadPink" x1="0" x2="1"><stop stop-color="#ff4dbd"/><stop offset="1" stop-color="#8b5cff"/></linearGradient>
+          <filter id="loadGlow"><feGaussianBlur stdDeviation="5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+         </defs>
+         <rect x="8" y="8" width="744" height="324" rx="20" fill="url(#loadSky)" stroke="#6dcfff" stroke-opacity=".3"/>
+         <path d="M20 228 L20 148 58 148 58 111 98 111 98 166 130 166 130 92 171 92 171 175 205 175 205 126 246 126 246 185 284 185 284 112 326 112 326 174 364 174 364 91 408 91 408 178 446 178 446 124 488 124 488 180 528 180 528 105 570 105 570 172 612 172 612 128 654 128 654 185 740 185 740 260 20 260Z" fill="#0b2440"/>
+         <g fill="#55dfff" opacity=".75"><path d="M70 125h9v14h-9zM145 106h9v14h-9zM294 127h9v14h-9zM382 108h9v14h-9zM538 121h9v14h-9zM624 144h9v14h-9z"/></g>
+         <path d="M18 246 Q155 198 278 229 T742 220" fill="none" stroke="#19cfff" stroke-width="3" opacity=".8" filter="url(#loadGlow)"/>
+         <path d="M-10 308 Q170 200 365 245 T780 286" fill="none" stroke="#ff4dbd" stroke-width="26" opacity=".18"/>
+         <path d="M-10 308 Q170 200 365 245 T780 286" fill="none" stroke="#5ceaff" stroke-width="4" filter="url(#loadGlow)"/>
+         <path d="M-10 324 Q170 216 365 261 T780 302" fill="none" stroke="#eafaff" stroke-width="2" stroke-dasharray="14 16" opacity=".8"/>
+         <g class="loading-car">
+          <ellipse cx="377" cy="251" rx="112" ry="18" fill="#00dfff" opacity=".22" filter="url(#loadGlow)"/>
+          <path d="M278 229 301 204 Q316 188 351 185 L417 190 Q447 195 468 222 L489 242 270 247Z" fill="url(#loadCarPaint)" stroke="#e8fcff" stroke-width="3"/>
+          <path d="M329 204 Q346 187 373 187 L411 191 438 218 315 218Z" fill="#09233f" stroke="#9eeaff" stroke-width="3"/>
+          <path d="M270 237 250 246 259 257 294 253 M480 235 502 244 492 256 462 252" fill="url(#loadPink)"/>
+          <path d="M290 251h35m118 0h35" stroke="#091321" stroke-width="13" stroke-linecap="round"/>
+          <path d="M288 235h22m158 0h22" stroke="#eaffff" stroke-width="5" stroke-linecap="round" filter="url(#loadGlow)"/>
+          <path d="M354 224h65" stroke="#fff" stroke-width="2" opacity=".8"/>
+         </g>
+         <g fill="#d8f8ff"><circle cx="92" cy="55" r="2"/><circle cx="184" cy="45" r="2"/><circle cx="548" cy="52" r="2"/><circle cx="680" cy="70" r="2"/></g>
+         <path d="M30 284h95m510-18h92" stroke="#75eaff" stroke-opacity=".5" stroke-width="2"/>
+        </svg>
+        <div class="loading-heading">LA COURSE COMMENCE</div>
+        <div class="loading-circuit-row"><span class="circuit-chip" id="loadingCircuitType">CIRCUIT</span><strong id="loadingCircuitName">NEON HARBOR</strong></div>
+        <p class="loading-sub">Préparation de la grille de départ</p>
+        <div class="loading-progress-head"><span>SYSTÈMES DE COURSE</span><span class="loading-ready">INITIALISATION</span></div>
+        <div class="loading-bar"><span></span></div>
+        <div class="loading-footer"><span><i></i> MOTEUR</span><span><i></i> CIRCUIT</span><span><i></i> PILOTES IA</span></div>
+        <div class="loading-tip">CONSEIL PILOTE <b>Freine avant les virages pour garder le contrôle.</b></div>
+       </div>
+      </div>
       <div class="overlay" id="overlay">
         <div class="overlay-card">
           <div class="kicker">READY TO RACE?</div>
